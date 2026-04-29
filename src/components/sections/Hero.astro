@@ -58,13 +58,14 @@ import { config } from '../../data/config';
       </a>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce" aria-hidden="true">
-      <span class="font-mono text-xs" style="color: var(--color-muted);">scroll</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-accent);">
-        <polyline points="6 9 12 15 18 9" />
-      </svg>
-    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce z-10" aria-hidden="true">
+    <span class="font-mono text-xs" style="color: var(--color-muted);">scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-accent);">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   </div>
 </section>
 

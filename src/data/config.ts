@@ -1,8 +1,7 @@
 export interface SocialLinks {
   github: string;
   linkedin: string;
-  twitter: string;
-  email: string;
+  medium: string;
 }
 
 export interface Skill {
@@ -28,12 +27,11 @@ export const config: SiteConfig = {
   bio: `I'm a software developer with a passion for building reliable, well-crafted applications.
 I take pride in my strong teamwork skills — I believe the best software is built collaboratively, through clear communication, shared ownership, and mutual respect.
 I enjoy tackling new challenges, learning continuously, and contributing to teams where everyone grows together.`,
-  avatar: '/images/avatar.jpg',
+  avatar: '/my-portfolio/images/avatar.jpeg',
   social: {
-    github: 'https://github.com/alexdev',
-    linkedin: 'https://linkedin.com/in/alexdev',
-    twitter: 'https://twitter.com/alexdev',
-    email: 'hello@alexdev.io',
+    github: 'https://github.com/raphaelmdcoelho',
+    linkedin: 'https://www.linkedin.com/in/rmdcoelho/',
+    medium: 'https://medium.com/@raphaelcoelho_94891',
   },
   skills: [
     { name: 'TypeScript', icon: 'ts', category: 'frontend' },

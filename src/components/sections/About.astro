@@ -40,11 +40,13 @@ import { config } from '../../data/config';
             LinkedIn
           </a>
           <a
-            href={`mailto:${config.social.email}`}
+            href={config.social.medium}
+            target="_blank"
+            rel="noopener noreferrer"
             class="about-link font-mono text-sm px-4 py-2 rounded border transition-all duration-200"
             style="color: var(--color-accent); border-color: var(--color-border);"
           >
-            Email
+            Medium
           </a>
         </div>
       </div>

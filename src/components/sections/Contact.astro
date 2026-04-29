@@ -9,18 +9,8 @@ import { config } from '../../data/config';
 
     <p class="mb-10 text-lg leading-relaxed" style="color: var(--color-muted);">
       Have a project in mind, want to collaborate, or just want to say hi?<br />
-      My inbox is always open.
+      Find me on the links below.
     </p>
-
-    <!-- Email CTA -->
-    <a
-      href={`mailto:${config.social.email}`}
-      class="contact-email inline-block font-mono text-lg px-8 py-4 rounded border transition-all duration-200 mb-12"
-      style="color: var(--color-accent); border-color: var(--color-accent);"
-      aria-label={`Send email to ${config.social.email}`}
-    >
-      {config.social.email}
-    </a>
 
     <!-- Social links -->
     <div class="flex items-center justify-center gap-8">
@@ -51,27 +41,23 @@ import { config } from '../../data/config';
         LinkedIn
       </a>
       <a
-        href={config.social.twitter}
+        href={config.social.medium}
         target="_blank"
         rel="noopener noreferrer"
         class="social-link flex items-center gap-2 font-mono text-sm transition-colors duration-200"
         style="color: var(--color-muted);"
-        aria-label="Twitter / X profile"
+        aria-label="Medium profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
         </svg>
-        Twitter
+        Medium
       </a>
     </div>
   </div>
 </section>
 
 <style>
-  .contact-email:hover {
-    background: var(--color-accent-dim);
-    box-shadow: 0 0 30px var(--color-accent-dim);
-  }
   .social-link:hover {
     color: var(--color-accent) !important;
   }

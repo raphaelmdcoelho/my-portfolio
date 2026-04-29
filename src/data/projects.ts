@@ -18,7 +18,7 @@ export const projects: Project[] = [
     tags: ['JavaScript', 'HTML', 'CSS', 'Browser Game', 'RPG'],
     repoUrl: '',
     liveUrl: 'https://mero-ybo9.onrender.com/game.html',
-    imageUrl: '/images/project-mero.png',
+    imageUrl: '/my-portfolio/images/poster.svg',
     featured: true,
   },
 ];
