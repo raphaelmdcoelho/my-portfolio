@@ -1,0 +1,80 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { blogPosts } from '../../data/blog';
+
+export async function getStaticPaths() {
+  return blogPosts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout title={`${post.title} — Alex Dev`} description={post.excerpt}>
+  <article class="max-w-2xl mx-auto px-6 py-32">
+    <!-- Back link -->
+    <a
+      href="/#blog"
+      class="back-link inline-flex items-center gap-2 font-mono text-sm mb-10 transition-colors duration-200"
+      style="color: var(--color-muted);"
+      aria-label="Back to blog list"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+      </svg>
+      Back to blog
+    </a>
+
+    <!-- Meta -->
+    <div class="flex items-center gap-3 mb-4">
+      <time datetime={post.date} class="font-mono text-sm" style="color: var(--color-accent);">
+        {formattedDate}
+      </time>
+      {
+        post.tags?.map((tag) => (
+          <span
+            class="font-mono text-xs px-2 py-0.5 rounded"
+            style="background: var(--color-surface); color: var(--color-muted); border: 1px solid var(--color-border);"
+          >
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+
+    <h1 class="font-mono font-bold text-3xl md:text-4xl mb-6 leading-tight" style="color: var(--color-text);">
+      {post.title}
+    </h1>
+
+    <div
+      class="rounded-xl border p-8"
+      style="background: var(--color-surface); border-color: var(--color-border);"
+    >
+      <p class="font-mono text-sm mb-6" style="color: var(--color-accent);">
+        // post content placeholder
+      </p>
+      <p class="leading-relaxed" style="color: var(--color-muted);">
+        {post.excerpt}
+      </p>
+      <p class="mt-6 leading-relaxed" style="color: var(--color-muted);">
+        This is a placeholder blog post page. Replace this content with your actual article.
+        You can use Astro's Content Collections with MDX for full Markdown support.
+      </p>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .back-link:hover {
+    color: var(--color-accent) !important;
+  }
+</style>

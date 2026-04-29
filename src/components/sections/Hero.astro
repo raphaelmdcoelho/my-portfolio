@@ -1,0 +1,81 @@
+---
+import { config } from '../../data/config';
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg"
+  aria-label="Hero section"
+>
+  <!-- Radial fade overlay -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background: radial-gradient(ellipse at center, transparent 30%, var(--color-bg) 80%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Accent glow -->
+  <div
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
+    style="background: radial-gradient(circle, var(--color-accent-dim) 0%, transparent 70%); filter: blur(60px);"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
+    <p
+      class="font-mono text-sm mb-4 tracking-widest uppercase"
+      style="color: var(--color-accent);"
+    >
+      &gt; Hello, world
+    </p>
+
+    <h1 class="font-mono font-bold text-5xl md:text-7xl mb-4 leading-tight" style="color: var(--color-text);">
+      {config.name}
+    </h1>
+
+    <h2 class="font-mono text-xl md:text-2xl mb-6" style="color: var(--color-muted);">
+      <span style="color: var(--color-accent);">//</span> {config.title}
+    </h2>
+
+    <p class="text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color: var(--color-muted);">
+      {config.tagline}
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="#projects"
+        class="hero-btn-primary font-mono text-sm px-6 py-3 rounded border transition-all duration-200"
+        style="background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); font-weight: 700;"
+      >
+        View Projects
+      </a>
+      <a
+        href="#contact"
+        class="hero-btn-secondary font-mono text-sm px-6 py-3 rounded border transition-all duration-200"
+        style="color: var(--color-accent); border-color: var(--color-accent); background: transparent;"
+      >
+        Contact Me
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce" aria-hidden="true">
+      <span class="font-mono text-xs" style="color: var(--color-muted);">scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-accent);">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-btn-primary:hover {
+    box-shadow: 0 0 20px var(--color-accent-dim);
+    transform: translateY(-1px);
+  }
+  .hero-btn-secondary:hover {
+    background: var(--color-accent-dim) !important;
+    box-shadow: 0 0 20px var(--color-accent-dim);
+    transform: translateY(-1px);
+  }
+</style>

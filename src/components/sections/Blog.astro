@@ -1,0 +1,19 @@
+---
+import { blogPosts } from '../../data/blog';
+import BlogCard from '../ui/BlogCard.astro';
+---
+
+<section
+  id="blog"
+  style="background: var(--color-surface); padding-top: 6rem; padding-bottom: 6rem;"
+  aria-label="Blog"
+>
+  <div class="content-wrap">
+    <h2 class="section-title"><span>#</span> Blog</h2>
+    <div class="section-divider"></div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      {blogPosts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </div>
+</section>

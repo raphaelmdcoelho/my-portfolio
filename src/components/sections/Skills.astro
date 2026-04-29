@@ -1,0 +1,47 @@
+---
+import { config } from '../../data/config';
+import SkillBadge from '../ui/SkillBadge.astro';
+
+const categories = ['frontend', 'backend', 'devops', 'tools'] as const;
+const categoryLabels: Record<string, string> = {
+  frontend: 'Frontend',
+  backend: 'Backend',
+  devops: 'DevOps',
+  tools: 'Tools',
+};
+---
+
+<section
+  id="skills"
+  style="background: var(--color-surface); padding-top: 6rem; padding-bottom: 6rem;"
+  aria-label="Skills and tech stack"
+>
+  <div class="content-wrap">
+    <h2 class="section-title"><span>#</span> Skills & Tech Stack</h2>
+    <div class="section-divider"></div>
+
+    <div class="space-y-10">
+      {
+        categories.map((cat) => {
+          const skills = config.skills.filter((s) => s.category === cat);
+          if (!skills.length) return null;
+          return (
+            <div>
+              <h3
+                class="font-mono text-xs uppercase tracking-widest mb-4"
+                style="color: var(--color-muted);"
+              >
+                {categoryLabels[cat]}
+              </h3>
+              <div class="flex flex-wrap gap-3">
+                {skills.map((skill) => (
+                  <SkillBadge name={skill.name} />
+                ))}
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

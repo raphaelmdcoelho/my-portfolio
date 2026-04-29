@@ -1,0 +1,100 @@
+---
+import { config } from '../../data/config';
+---
+
+<section id="about" style="padding-top: 6rem; padding-bottom: 6rem;" aria-label="About me">
+  <div class="content-wrap">
+    <h2 class="section-title"><span>#</span> About Me</h2>
+    <div class="section-divider"></div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Text -->
+      <div>
+        <div class="space-y-4">
+          {
+            config.bio.split('\n').filter(Boolean).map((paragraph) => (
+              <p class="leading-relaxed" style="color: var(--color-muted);">
+                {paragraph.trim()}
+              </p>
+            ))
+          }
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href={config.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="about-link font-mono text-sm px-4 py-2 rounded border transition-all duration-200"
+            style="color: var(--color-accent); border-color: var(--color-border);"
+          >
+            GitHub
+          </a>
+          <a
+            href={config.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="about-link font-mono text-sm px-4 py-2 rounded border transition-all duration-200"
+            style="color: var(--color-accent); border-color: var(--color-border);"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={`mailto:${config.social.email}`}
+            class="about-link font-mono text-sm px-4 py-2 rounded border transition-all duration-200"
+            style="color: var(--color-accent); border-color: var(--color-border);"
+          >
+            Email
+          </a>
+        </div>
+      </div>
+
+      <!-- Avatar -->
+      <div class="flex justify-center md:justify-end">
+        <div
+          class="relative w-64 h-64 rounded-2xl overflow-hidden"
+          style="border: 1px solid var(--color-border); box-shadow: 0 0 40px var(--color-accent-dim);"
+        >
+          <img
+            src={config.avatar}
+            alt={`Portrait of ${config.name}`}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <!-- Fallback placeholder -->
+          <div
+            class="absolute inset-0 items-center justify-center flex-col gap-2"
+            style="display: none; background: var(--color-surface-2);"
+            aria-hidden="true"
+          >
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color: var(--color-muted);">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            <span class="font-mono text-xs" style="color: var(--color-muted);">avatar.jpg</span>
+          </div>
+
+          <!-- Corner accent -->
+          <div
+            class="absolute top-0 right-0 w-8 h-8"
+            style="border-top: 2px solid var(--color-accent); border-right: 2px solid var(--color-accent);"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute bottom-0 left-0 w-8 h-8"
+            style="border-bottom: 2px solid var(--color-accent); border-left: 2px solid var(--color-accent);"
+            aria-hidden="true"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-link:hover {
+    background: var(--color-accent-dim);
+    border-color: var(--color-accent) !important;
+  }
+</style>
