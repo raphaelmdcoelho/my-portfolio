@@ -8,11 +8,13 @@ const { project } = Astro.props;
 ---
 
 <article
-  class="project-card rounded-xl border overflow-hidden flex flex-col transition-all duration-300"
+  class="project-card relative rounded-xl border overflow-hidden flex flex-col transition-all duration-300"
   style="background: var(--color-surface); border-color: var(--color-border);"
 >
+  <!-- Hover fill overlay -->
+  <div class="fill-overlay absolute inset-0 z-0 pointer-events-none rounded-xl" aria-hidden="true"></div>
   <!-- Image -->
-  <div class="relative h-44 overflow-hidden" style="background: var(--color-surface-2);">
+  <div class="relative z-10 rounded-lg h-44 overflow-hidden" style="background: var(--color-surface-2); margin: 1rem 1rem 0 1rem;">
     <img
       src={project.imageUrl}
       alt={`Screenshot of ${project.title}`}
@@ -45,7 +47,7 @@ const { project } = Astro.props;
   </div>
 
   <!-- Content -->
-  <div class="p-5 flex flex-col flex-1">
+  <div class="relative z-10 flex flex-col flex-1" style="padding: 1rem 1rem 1rem 1rem;">
     <h3 class="font-mono font-bold text-base mb-2" style="color: var(--color-text);">
       {project.title}
     </h3>
@@ -110,9 +112,11 @@ const { project } = Astro.props;
 </article>
 
 <style>
+  .project-card {
+    position: relative;
+  }
   .project-card:hover {
     border-color: var(--color-accent) !important;
-    box-shadow: 0 0 30px var(--color-accent-dim);
     transform: translateY(-4px);
   }
   .project-card:hover .project-img {
@@ -120,5 +124,14 @@ const { project } = Astro.props;
   }
   .card-link:hover {
     color: var(--color-accent) !important;
+  }
+
+  .fill-overlay {
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .project-card:hover .fill-overlay {
+    opacity: 0.18;
   }
 </style>

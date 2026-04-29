@@ -14,9 +14,13 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
 ---
 
 <article
-  class="blog-card rounded-xl border p-6 flex flex-col transition-all duration-300"
-  style="background: var(--color-surface-2); border-color: var(--color-border);"
+  class="blog-card relative rounded-xl border flex flex-col transition-all duration-300"
+  style="background: var(--color-surface-2); border-color: var(--color-border); padding: 1.75rem;"
 >
+  <!-- Hover fill overlay -->
+  <div class="fill-overlay absolute inset-0 z-0 pointer-events-none rounded-xl" aria-hidden="true"></div>
+
+  <div class="relative z-10 flex flex-col flex-1">
   <div class="flex items-center gap-3 mb-3">
     <time
       datetime={post.date}
@@ -57,15 +61,24 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
       <polyline points="12 5 19 12 12 19" />
     </svg>
   </a>
+  </div>
 </article>
 
 <style>
   .blog-card:hover {
     border-color: var(--color-accent) !important;
-    box-shadow: 0 0 20px var(--color-accent-dim);
     transform: translateY(-3px);
   }
   .blog-read-link:hover {
     gap: 0.5rem;
+  }
+
+  .fill-overlay {
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .blog-card:hover .fill-overlay {
+    opacity: 0.18;
   }
 </style>
