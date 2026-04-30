@@ -5,14 +5,17 @@ interface Props {
 const { name } = Astro.props;
 ---
 
-<span
-  class="skill-badge font-mono text-sm px-4 py-2 rounded border transition-all duration-200 cursor-default"
-  style="color: var(--color-text); border-color: var(--color-border); background: var(--color-surface-2);"
->
+<span class="skill-badge font-mono text-sm px-4 py-2 rounded border transition-all duration-200 cursor-default">
   {name}
 </span>
 
 <style>
+  .skill-badge {
+    color: var(--color-text);
+    border-color: var(--color-border);
+    background: var(--color-surface-2);
+  }
+
   .skill-badge:hover {
     color: var(--color-accent) !important;
     border-color: var(--color-accent) !important;

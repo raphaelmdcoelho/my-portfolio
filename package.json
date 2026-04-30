@@ -11,14 +11,20 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "overrides": {
+    "vite": "^7.0.0"
+  },
   "dependencies": {
+    "@astrojs/check": "^0.9.9",
     "@astrojs/react": "^5.0.4",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.1.10",
     "framer-motion": "^12.38.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "tailwindcss": "^4.2.4"
+    "shiki": "4.0.2",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",

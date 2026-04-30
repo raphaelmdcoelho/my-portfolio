@@ -8,36 +8,25 @@ import { config } from '../../data/config';
   aria-label="Hero section"
 >
   <!-- Radial fade overlay -->
-  <div
-    class="absolute inset-0 pointer-events-none"
-    style="background: radial-gradient(ellipse at center, transparent 30%, var(--color-bg) 80%);"
-    aria-hidden="true"
-  ></div>
+  <div class="hero-fade absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
   <!-- Accent glow -->
-  <div
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
-    style="background: radial-gradient(circle, var(--color-accent-dim) 0%, transparent 70%); filter: blur(60px);"
-    aria-hidden="true"
-  ></div>
+  <div class="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none" aria-hidden="true"></div>
 
   <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
-    <p
-      class="font-mono text-sm mb-4 tracking-widest uppercase"
-      style="color: var(--color-accent);"
-    >
+    <p class="hero-greeting font-mono text-sm mb-4 tracking-widest uppercase">
       &gt; Hello, world
     </p>
 
-    <h1 class="font-mono font-bold text-5xl md:text-7xl mb-4 leading-tight" style="color: var(--color-text);">
+    <h1 class="hero-name font-mono font-bold text-5xl md:text-7xl mb-4 leading-tight">
       {config.name}
     </h1>
 
-    <h2 class="font-mono text-xl md:text-2xl mb-6" style="color: var(--color-muted);">
-      <span style="color: var(--color-accent);">//</span> {config.title}
+    <h2 class="hero-title font-mono text-xl md:text-2xl mb-6">
+      <span class="text-accent">//</span> {config.title}
     </h2>
 
-    <p class="text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed" style="color: var(--color-muted);">
+    <p class="hero-tagline text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
       {config.tagline}
     </p>
 
@@ -45,14 +34,12 @@ import { config } from '../../data/config';
       <a
         href="#projects"
         class="hero-btn-primary font-mono text-sm rounded border transition-all duration-200"
-        style="background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); font-weight: 700; padding: 0.875rem 2rem;"
       >
         View Projects
       </a>
       <a
         href="#contact"
         class="hero-btn-secondary font-mono text-sm rounded border transition-all duration-200"
-        style="color: var(--color-accent); border-color: var(--color-accent); background: transparent; padding: 0.875rem 2rem;"
       >
         Contact Me
       </a>
@@ -62,18 +49,63 @@ import { config } from '../../data/config';
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce z-10" aria-hidden="true">
-    <span class="font-mono text-xs" style="color: var(--color-muted);">scroll</span>
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-accent);">
+    <span class="hero-scroll font-mono text-xs">scroll</span>
+    <svg class="text-accent" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="6 9 12 15 18 9" />
     </svg>
   </div>
 </section>
 
 <style>
+  .hero-fade {
+    background: radial-gradient(ellipse at center, transparent 30%, var(--color-bg) 80%);
+  }
+
+  .hero-glow {
+    background: radial-gradient(circle, var(--color-accent-dim) 0%, transparent 70%);
+    filter: blur(60px);
+  }
+
+  .hero-greeting {
+    color: var(--color-accent);
+  }
+
+  .hero-name {
+    color: var(--color-text);
+  }
+
+  .hero-title {
+    color: var(--color-muted);
+  }
+
+  .hero-tagline {
+    color: var(--color-muted);
+  }
+
+  .hero-scroll {
+    color: var(--color-muted);
+  }
+
+  .hero-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-accent);
+    font-weight: 700;
+    padding: 0.875rem 2rem;
+  }
+
   .hero-btn-primary:hover {
     box-shadow: 0 0 20px var(--color-accent-dim);
     transform: translateY(-1px);
   }
+
+  .hero-btn-secondary {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: transparent;
+    padding: 0.875rem 2rem;
+  }
+
   .hero-btn-secondary:hover {
     background: var(--color-accent-dim) !important;
     box-shadow: 0 0 20px var(--color-accent-dim);

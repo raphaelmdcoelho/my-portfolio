@@ -12,15 +12,13 @@ const navLinks = [
 
 <header
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-  style="background: transparent;"
+  class="navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300"
 >
   <div class="content-wrap py-4 flex items-center justify-between">
     <!-- Logo -->
     <a
       href="#hero"
-      class="font-mono font-bold text-lg"
-      style="color: var(--color-accent);"
+      class="navbar-logo font-mono font-bold text-lg"
       aria-label="Home"
     >
       &lt;{config.name.split(' ')[0].toLowerCase()} /&gt;
@@ -33,7 +31,6 @@ const navLinks = [
           <a
             href={link.href}
             class="nav-link font-mono text-sm transition-colors duration-200"
-            style="color: var(--color-muted);"
           >
             {link.label}
           </a>
@@ -44,8 +41,7 @@ const navLinks = [
     <!-- Mobile hamburger -->
     <button
       id="menu-toggle"
-      class="md:hidden p-2 rounded"
-      style="color: var(--color-text);"
+      class="navbar-toggle md:hidden p-2 rounded"
       aria-label="Toggle menu"
       aria-expanded="false"
     >
@@ -62,18 +58,13 @@ const navLinks = [
   </div>
 
   <!-- Mobile menu -->
-  <div
-    id="mobile-menu"
-    class="hidden md:hidden px-6 pb-4"
-    style="background: var(--color-surface);"
-  >
+  <div id="mobile-menu" class="mobile-menu hidden md:hidden px-6 pb-4">
     <nav class="flex flex-col gap-4 pt-4" aria-label="Mobile navigation">
       {
         navLinks.map((link) => (
           <a
             href={link.href}
             class="mobile-nav-link font-mono text-sm py-1 transition-colors duration-200"
-            style="color: var(--color-muted);"
           >
             {link.label}
           </a>
@@ -84,6 +75,23 @@ const navLinks = [
 </header>
 
 <style>
+  .navbar {
+    background: transparent;
+  }
+
+  .navbar-logo {
+    color: var(--color-accent);
+  }
+
+  .navbar-toggle {
+    color: var(--color-text);
+  }
+
+  .nav-link,
+  .mobile-nav-link {
+    color: var(--color-muted);
+  }
+
   .nav-link:hover,
   .mobile-nav-link:hover {
     color: var(--color-accent) !important;
@@ -91,6 +99,10 @@ const navLinks = [
 
   .nav-link.active {
     color: var(--color-accent) !important;
+  }
+
+  .mobile-menu {
+    background: var(--color-surface);
   }
 
   #navbar.scrolled {

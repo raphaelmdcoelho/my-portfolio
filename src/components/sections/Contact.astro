@@ -2,24 +2,23 @@
 import { config } from '../../data/config';
 ---
 
-<section id="contact" style="padding-top: 6rem; padding-bottom: 6rem;" aria-label="Contact">
+<section id="contact" class="section" aria-label="Contact">
   <div class="content-wrap">
     <h2 class="section-title"><span>#</span> Contact</h2>
     <div class="section-divider"></div>
 
-    <p class="text-lg leading-relaxed" style="color: var(--color-muted);">
+    <p class="contact-text text-lg leading-relaxed">
       Have a project in mind, want to collaborate, or just want to say hi?<br />
       Find me on the links below.
     </p>
 
     <!-- Social links -->
-    <div class="flex items-center justify-center gap-8" style="margin-top: 3rem;">
+    <div class="social-links flex items-center justify-center gap-8">
       <a
         href={config.social.github}
         target="_blank"
         rel="noopener noreferrer"
         class="social-link flex items-center gap-2 font-mono text-sm transition-colors duration-200"
-        style="color: var(--color-muted);"
         aria-label="GitHub profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -32,7 +31,6 @@ import { config } from '../../data/config';
         target="_blank"
         rel="noopener noreferrer"
         class="social-link flex items-center gap-2 font-mono text-sm transition-colors duration-200"
-        style="color: var(--color-muted);"
         aria-label="LinkedIn profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -45,7 +43,6 @@ import { config } from '../../data/config';
         target="_blank"
         rel="noopener noreferrer"
         class="social-link flex items-center gap-2 font-mono text-sm transition-colors duration-200"
-        style="color: var(--color-muted);"
         aria-label="Medium profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -58,6 +55,18 @@ import { config } from '../../data/config';
 </section>
 
 <style>
+  .contact-text {
+    color: var(--color-muted);
+  }
+
+  .social-links {
+    margin-top: 3rem;
+  }
+
+  .social-link {
+    color: var(--color-muted);
+  }
+
   .social-link:hover {
     color: var(--color-accent) !important;
   }

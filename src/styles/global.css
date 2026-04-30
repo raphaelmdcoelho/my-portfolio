@@ -146,3 +146,39 @@ body {
   margin-bottom: 3rem;
   border-radius: 999px;
 }
+
+/* Color utilities */
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.text-main {
+  color: var(--color-text);
+}
+
+.bg-surface {
+  background: var(--color-surface);
+}
+
+.bg-surface-2 {
+  background: var(--color-surface-2);
+}
+
+.border-default {
+  border-color: var(--color-border);
+}
+
+/* Tag / badge pill */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}

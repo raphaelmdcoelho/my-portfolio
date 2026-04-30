@@ -22,14 +22,13 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 ---
 
 <Layout title={`${post.title} — Raphael Coelho`} description={post.excerpt}>
-  <div class="w-full flex justify-center px-6" style="padding-top: 7rem; padding-bottom: 8rem;">
-    <article class="w-full" style="max-width: 720px;">
+  <div class="article-page w-full flex justify-center px-6">
+    <article class="article-wrap w-full">
 
       <!-- Back link -->
       <a
         href="/my-portfolio/#blog"
         class="back-link inline-flex items-center gap-2 font-mono text-sm mb-10 transition-colors duration-200"
-        style="color: var(--color-muted);"
         aria-label="Back to blog list"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -41,106 +40,96 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 
       <!-- Tags -->
       <div class="flex items-center gap-3 mb-5 flex-wrap">
-        {
-          post.tags?.map((tag) => (
-            <span
-              class="font-mono text-xs px-2 py-0.5 rounded"
-              style="background: var(--color-surface); color: var(--color-muted); border: 1px solid var(--color-border);"
-            >
-              {tag}
-            </span>
-          ))
-        }
+        {post.tags?.map((tag) => <span class="tag">{tag}</span>)}
       </div>
 
       <!-- Title -->
-      <h1 class="font-mono font-bold text-3xl md:text-4xl mb-6 leading-tight" style="color: var(--color-text);">
+      <h1 class="article-title font-mono font-bold text-3xl md:text-4xl mb-6 leading-tight">
         {post.title} 🤔
       </h1>
 
       <!-- Author byline -->
-      <div class="flex items-center gap-3 mb-10 pb-8" style="border-bottom: 1px solid var(--color-border);">
+      <div class="article-byline flex items-center gap-3 mb-10 pb-8">
         <img
           src="/my-portfolio/images/avatar.jpg"
           alt="Raphael Coelho"
           width="40"
           height="40"
-          class="rounded-full"
-          style="border: 2px solid var(--color-accent); object-fit: cover;"
+          class="article-avatar rounded-full"
         />
         <div>
-          <p class="font-mono text-sm font-semibold" style="color: var(--color-text);">Raphael Coelho</p>
-          <time datetime={post.date} class="font-mono text-xs" style="color: var(--color-accent);">
+          <p class="article-author font-mono text-sm font-semibold">Raphael Coelho</p>
+          <time datetime={post.date} class="article-date font-mono text-xs">
             {formattedDate}
           </time>
         </div>
       </div>
 
       {isStreamPost ? (
-        <div class="article-body space-y-14" style="margin-top: 3rem;">
+        <div class="article-body space-y-14">
 
           <!-- Introduction -->
           <section>
-            <p class="leading-relaxed mb-4" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed mb-4">
               Streams are a fundamental concept in C# for handling large amounts of data, network communication, and file I/O operations that may take time to complete. In many cases, the duration of these operations is unpredictable, so it's crucial to have a mechanism that doesn't block the entire process while waiting for results.
             </p>
-            <p class="leading-relaxed mb-4" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed mb-4">
               Stream is an abstraction and they carry a sequence of bytes. Those bytes represent some information; an important aspect is that you don't need to load everything in memory when reading data through streams.
             </p>
-            <p class="leading-relaxed" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed">
               Streams have some operations to make it possible to read through some information that still needs to be loaded. Those operations are <code>Read</code>, <code>Write</code>, and <code>Seek</code>. So let's talk about it 🧠
             </p>
           </section>
 
           <!-- Benefits -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Benefits of Using Streams 👍</h2>
+            <h2 class="font-mono font-bold text-xl mb-4">Benefits of Using Streams 👍</h2>
             <ul class="space-y-3">
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Immediate Data Access:</span> You can read or write data even when the operation hasn't been fully completed, allowing for more flexible data handling.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Immediate Data Access:</span> You can read or write data even when the operation hasn't been fully completed, allowing for more flexible data handling.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Resource Efficiency:</span> Streams help minimize memory usage by processing data in chunks rather than loading everything at once.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Resource Efficiency:</span> Streams help minimize memory usage by processing data in chunks rather than loading everything at once.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Scalability:</span> Streams are ideal for scenarios where large-scale data processing is required, such as reading log files or streaming multimedia content.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Scalability:</span> Streams are ideal for scenarios where large-scale data processing is required, such as reading log files or streaming multimedia content.</span>
               </li>
             </ul>
           </section>
 
           <!-- Drawbacks -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Potential Drawbacks of Streams 👎</h2>
+            <h2 class="font-mono font-bold text-xl mb-4">Potential Drawbacks of Streams 👎</h2>
             <ul class="space-y-3">
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Complexity:</span> Working with streams can be more complex than dealing with static data, requiring careful handling to avoid issues like data corruption.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Complexity:</span> Working with streams can be more complex than dealing with static data, requiring careful handling to avoid issues like data corruption.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Error Handling:</span> Streams may require additional error handling, as network interruptions or file corruption can occur during streaming.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Error Handling:</span> Streams may require additional error handling, as network interruptions or file corruption can occur during streaming.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">No Re-reading without Seeking:</span> Once you process a stream, you can't often go back to an earlier point without using the <code>Seek</code> method, which might not be supported by all streams.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">No Re-reading without Seeking:</span> Once you process a stream, you can't often go back to an earlier point without using the <code>Seek</code> method, which might not be supported by all streams.</span>
               </li>
             </ul>
           </section>
 
           <!-- Visualizing Streams -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Visualizing Streams 🧐</h2>
-            <p class="leading-relaxed mb-4" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Visualizing Streams 🧐</h2>
+            <p class="article-p leading-relaxed mb-4">
               A helpful analogy for understanding streams is to think of them as faucets that allow data to flow continuously. Just like a kitchen faucet, the flow can be slow or fast, depending on the situation. Some streams might complete quickly, while others might take much longer.
             </p>
-            <p class="leading-relaxed mb-4" style="color: var(--color-muted);">
-              In this analogy, a <strong style="color: var(--color-text);">buffer</strong> acts like a bucket. It catches the data as it flows, allowing you to access and process it. If the faucet (stream) is interrupted, the buffer retains what has been collected so far.
+            <p class="article-p leading-relaxed mb-4">
+              In this analogy, a <strong class="article-strong">buffer</strong> acts like a bucket. It catches the data as it flows, allowing you to access and process it. If the faucet (stream) is interrupted, the buffer retains what has been collected so far.
             </p>
-            <p class="leading-relaxed mb-6" style="color: var(--color-muted);">
-              Another important aspect is knowing where to resume reading data when the buffer is full. The stream's <strong style="color: var(--color-text);">cursor</strong> plays this role — in the analogy, you can think of the cursor as the faucet's valve. It controls the water flow, allowing you to stop and start the stream as needed. The process of moving the cursor is called <strong style="color: var(--color-text);">seek</strong>.
+            <p class="article-p leading-relaxed mb-6">
+              Another important aspect is knowing where to resume reading data when the buffer is full. The stream's <strong class="article-strong">cursor</strong> plays this role — in the analogy, you can think of the cursor as the faucet's valve. It controls the water flow, allowing you to stop and start the stream as needed. The process of moving the cursor is called <strong class="article-strong">seek</strong>.
             </p>
 
             <!-- Diagram -->
@@ -148,10 +137,9 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
               <img
                 src="/my-portfolio/images/blog/stream-diagram.png"
                 alt="Diagram illustrating how a stream, buffer and cursor work together"
-                class="rounded-xl w-full"
-                style="border: 1px solid var(--color-border); max-width: 600px;"
+                class="article-diagram rounded-xl w-full"
               />
-              <figcaption class="font-mono text-xs text-center" style="color: var(--color-muted);">
+              <figcaption class="article-caption font-mono text-xs text-center">
                 Stream, buffer and cursor — the faucet analogy
               </figcaption>
             </figure>
@@ -159,15 +147,15 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 
           <!-- Reading File Content -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Reading File Content with a Stream in C# 🔥</h2>
-            <p class="leading-relaxed mb-8" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Reading File Content with a Stream in C# 🔥</h2>
+            <p class="article-p leading-relaxed mb-8">
               Here's an example of reading data from a file using a <code>FileStream</code> class in C#. The <code>FileStream</code> class inherits from the abstract <code>Stream</code> class, which provides methods for handling streams.
             </p>
-            <div class="code-block rounded-xl overflow-x-auto mb-8" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs" style="color: var(--color-accent); border-bottom: 1px solid var(--color-border);">
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
                 <span>// FileStream read example</span>
               </div>
-              <pre class="p-5 font-mono text-sm leading-relaxed overflow-x-auto" style="color: var(--color-text);"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 {'{'}
   byte[] buffer = new byte[1024];
   int bytesRead;
@@ -178,31 +166,31 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
   {'}'}
 {'}'}</code></pre>
             </div>
-            <p class="leading-relaxed mb-3" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed mb-3">
               In this example, we read data from a file asynchronously using a buffer — an array of bytes. The data flows into the buffer partially, based on its capacity, and the <code>while</code> loop continues to refill the buffer until the entire stream is read. The <code>Position</code> property keeps track of the last read position via the cursor.
             </p>
-            <p class="leading-relaxed" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed">
               We use <code>Encoding.UTF8.GetString(buffer, 0, bytesRead)</code> to transform the byte information into a string, but we can handle any type of information since we have it as an array of bytes.
             </p>
           </section>
 
           <!-- Stream Position & Flushing -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Handling Stream Position and Flushing 👀</h2>
-            <p class="leading-relaxed mb-8" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Handling Stream Position and Flushing 👀</h2>
+            <p class="article-p leading-relaxed mb-8">
               If you need to reset the stream's position, check if <code>CanSeek</code> is true and use <code>Seek</code> to rewind to the beginning:
             </p>
-            <div class="code-block rounded-xl overflow-x-auto mb-8" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-              <pre class="p-5 font-mono text-sm leading-relaxed overflow-x-auto" style="color: var(--color-text);"><code>if (stream.CanSeek)
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>if (stream.CanSeek)
 {'{'}
   stream.Seek(0, SeekOrigin.Begin);
 {'}'}</code></pre>
             </div>
-            <p class="leading-relaxed mb-8" style="color: var(--color-muted);">
+            <p class="article-p leading-relaxed mb-8">
               When working with writable streams, use <code>Flush</code> to ensure all buffered data is written to the underlying storage. This is critical to avoid data loss:
             </p>
-            <div class="code-block rounded-xl overflow-x-auto" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-              <pre class="p-5 font-mono text-sm leading-relaxed overflow-x-auto" style="color: var(--color-text);"><code>using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
 {'{'}
     byte[] dataBytes = Encoding.UTF8.GetBytes(data);
     stream.Write(dataBytes, 0, dataBytes.Length);
@@ -213,44 +201,44 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 
           <!-- Stream Lifecycle -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Stream Lifecycle ⏱</h2>
-            <p class="leading-relaxed mb-5" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Stream Lifecycle ⏱</h2>
+            <p class="article-p leading-relaxed mb-5">
               The lifecycle of a stream involves several key stages: creation, usage (reading, writing, seeking), and disposal. Understanding and managing each stage properly is essential for efficient and error-free operation.
             </p>
             <ul class="space-y-4 mb-6">
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Creation:</span> Streams are instantiated when a data source (file, memory, or network connection) is opened. Configuration parameters during instantiation, like file path, access mode, and buffer size, set up the stream's behavior.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Creation:</span> Streams are instantiated when a data source (file, memory, or network connection) is opened. Configuration parameters during instantiation, like file path, access mode, and buffer size, set up the stream's behavior.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Usage:</span> During usage, data flows through the stream via read, write, and seek operations. Each operation affects the stream's position, tracked by the internal cursor.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Usage:</span> During usage, data flows through the stream via read, write, and seek operations. Each operation affects the stream's position, tracked by the internal cursor.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Flushing:</span> For writable streams, use <code>Flush</code> to push all buffered data to the underlying data source before the stream is closed, preventing data loss.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Flushing:</span> For writable streams, use <code>Flush</code> to push all buffered data to the underlying data source before the stream is closed, preventing data loss.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Disposal:</span> Streams implement <code>IDisposable</code> and should be disposed using a <code>using</code> statement, releasing file handles, network connections, or memory buffers.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Disposal:</span> Streams implement <code>IDisposable</code> and should be disposed using a <code>using</code> statement, releasing file handles, network connections, or memory buffers.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><span class="font-semibold" style="color: var(--color-text);">Error Handling:</span> Implement <code>try-catch</code> around stream operations to handle file access issues, network timeouts, or data corruption gracefully.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Error Handling:</span> Implement <code>try-catch</code> around stream operations to handle file access issues, network timeouts, or data corruption gracefully.</span>
               </li>
             </ul>
 
-            <p class="font-mono text-sm mb-8" style="color: var(--color-accent);">// Best practices</p>
+            <p class="article-annotation font-mono text-sm mb-8">// Best practices</p>
 
-            <div class="code-block rounded-xl overflow-x-auto mb-8" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-              <pre class="p-5 font-mono text-sm leading-relaxed overflow-x-auto" style="color: var(--color-text);"><code>using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 {'{'}
     // Perform read operations
 {'}'} // Stream is automatically disposed here</code></pre>
             </div>
 
-            <div class="code-block rounded-xl overflow-x-auto" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-              <pre class="p-5 font-mono text-sm leading-relaxed overflow-x-auto" style="color: var(--color-text);"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 {'{'}
     if (stream.CanRead)
     {'{'}
@@ -272,55 +260,52 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 
           <!-- Types of Streams -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Different Types of Streams in C# 🧬</h2>
-            <p class="leading-relaxed mb-5" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Different Types of Streams in C# 🧬</h2>
+            <p class="article-p leading-relaxed mb-5">
               While the examples above use <code>FileStream</code>, C# offers various stream implementations:
             </p>
             <ul class="space-y-3">
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><code style="color: var(--color-text);">MemoryStream</code> — Stores data in memory; useful for temporary storage and operations that don't require disk writing.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">MemoryStream</code> — Stores data in memory; useful for temporary storage and operations that don't require disk writing.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><code style="color: var(--color-text);">NetworkStream</code> — Allows data transmission over a network, often used for TCP/IP connections.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">NetworkStream</code> — Allows data transmission over a network, often used for TCP/IP connections.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><code style="color: var(--color-text);">CryptoStream</code> — Applies cryptographic transformations for secure data handling (encryption/decryption).</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">CryptoStream</code> — Applies cryptographic transformations for secure data handling (encryption/decryption).</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><code style="color: var(--color-text);">BufferedStream</code> — Adds buffering to another stream, enhancing performance for repeated read/write operations.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">BufferedStream</code> — Adds buffering to another stream, enhancing performance for repeated read/write operations.</span>
               </li>
               <li class="flex gap-3">
-                <span style="color: var(--color-accent);">▸</span>
-                <span style="color: var(--color-muted);"><code style="color: var(--color-text);">GZipStream</code> — Compresses or decompresses data using the GZip algorithm, ideal for reducing storage space and transmission time.</span>
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">GZipStream</code> — Compresses or decompresses data using the GZip algorithm, ideal for reducing storage space and transmission time.</span>
               </li>
             </ul>
           </section>
 
           <!-- Conclusion -->
           <section>
-            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Conclusion 🏁</h2>
-            <p class="leading-relaxed" style="color: var(--color-muted);">
+            <h2 class="font-mono font-bold text-xl mb-4">Conclusion 🏁</h2>
+            <p class="article-p leading-relaxed">
               Streams are a fundamental and versatile tool in C# that enable efficient data processing for large-scale I/O operations, such as file handling, network communication, and real-time data processing. By grasping the intricacies of stream usage — including performance optimization, effective error handling, and proper lifecycle management — developers can maximize the benefits of streams to build responsive, resource-efficient, and scalable applications. Understanding how to leverage different types of streams and applying best practices ensures that your applications handle data safely and efficiently, unlocking the full potential of this powerful 💪 concept in C# programming.
             </p>
           </section>
 
         </div>
       ) : (
-        <div
-          class="rounded-xl border p-8"
-          style="background: var(--color-surface); border-color: var(--color-border);"
-        >
-          <p class="font-mono text-sm mb-6" style="color: var(--color-accent);">
+        <div class="article-placeholder rounded-xl border p-8">
+          <p class="article-annotation font-mono text-sm mb-6">
             // post content placeholder
           </p>
-          <p class="leading-relaxed" style="color: var(--color-muted);">
+          <p class="article-p leading-relaxed">
             {post.excerpt}
           </p>
-          <p class="mt-6 leading-relaxed" style="color: var(--color-muted);">
+          <p class="article-p mt-6 leading-relaxed">
             This is a placeholder blog post page. Replace this content with your actual article.
             You can use Astro's Content Collections with MDX for full Markdown support.
           </p>
@@ -332,17 +317,98 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 </Layout>
 
 <style>
+  /* Page layout */
+  .article-page {
+    padding-top: 7rem;
+    padding-bottom: 8rem;
+  }
+
+  .article-wrap {
+    max-width: 720px;
+  }
+
+  /* Back link */
+  .back-link {
+    color: var(--color-muted);
+  }
+
   .back-link:hover {
     color: var(--color-accent) !important;
   }
 
-  .article-body h2 {
+  /* Header */
+  .article-title {
+    color: var(--color-text);
+  }
+
+  .article-byline {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-avatar {
+    border: 2px solid var(--color-accent);
+    object-fit: cover;
+  }
+
+  .article-author {
+    color: var(--color-text);
+  }
+
+  .article-date {
+    color: var(--color-accent);
+  }
+
+  /* Article body */
+  .article-body {
     margin-top: 3rem;
   }
 
-  .article-body .code-block {
+  .article-body h2 {
+    color: var(--color-text);
+    margin-top: 3rem;
+  }
+
+  .article-p {
+    color: var(--color-muted);
+  }
+
+  .article-strong {
+    color: var(--color-text);
+  }
+
+  .article-annotation {
+    color: var(--color-accent);
+  }
+
+  .bullet {
+    color: var(--color-accent);
+  }
+
+  /* Diagram */
+  .article-diagram {
+    border: 1px solid var(--color-border);
+    max-width: 600px;
+  }
+
+  .article-caption {
+    color: var(--color-muted);
+  }
+
+  /* Code blocks */
+  .code-block {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+
+  .code-header {
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .code-pre {
+    color: var(--color-text);
   }
 
   .article-body figure {
@@ -374,5 +440,11 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 
   .code-block pre {
     tab-size: 2;
+  }
+
+  /* Placeholder */
+  .article-placeholder {
+    background: var(--color-surface);
+    border-color: var(--color-border);
   }
 </style>
