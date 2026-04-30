@@ -19,6 +19,7 @@ const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US',
 });
 
 const isStreamPost = post.id === 'how-stream-works-in-csharp';
+const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
 ---
 
 <Layout title={`${post.title} — Raphael Coelho`} description={post.excerpt}>
@@ -293,6 +294,202 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
             <h2 class="font-mono font-bold text-xl mb-4">Conclusion 🏁</h2>
             <p class="article-p leading-relaxed">
               Streams are a fundamental and versatile tool in C# that enable efficient data processing for large-scale I/O operations, such as file handling, network communication, and real-time data processing. By grasping the intricacies of stream usage — including performance optimization, effective error handling, and proper lifecycle management — developers can maximize the benefits of streams to build responsive, resource-efficient, and scalable applications. Understanding how to leverage different types of streams and applying best practices ensures that your applications handle data safely and efficiently, unlocking the full potential of this powerful 💪 concept in C# programming.
+            </p>
+          </section>
+
+        </div>
+      ) : isMountPost ? (
+        <div class="article-body space-y-14" style="margin-top: 3rem;">
+
+          <!-- Introduction -->
+          <section>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/linux-mounting-hero.jpg"
+                alt="Abstract illustration representing Linux and Windows file sharing"
+                class="article-diagram rounded-xl w-full"
+              />
+            </figure>
+            <p class="article-p leading-relaxed mb-4">
+              In a mixed operating system environment, such as one that includes both Linux and Windows machines, users and teams often need a seamless way to access and share files across platforms. However, the inherent differences in file systems and protocols between Linux and Windows can complicate this process. For example, Linux typically uses ext4 or similar file systems, while Windows relies on NTFS, making direct compatibility a challenge. To bridge this gap, network file-sharing protocols become essential.
+            </p>
+            <p class="article-p leading-relaxed">
+              One effective solution for such cross-platform file sharing is to use the CIFS protocol, which facilitates the mounting of Windows directories onto Linux, creating a unified, accessible file structure for both systems. In this article, we'll focus on using CIFS to mount a Windows directory onto Linux, providing clear access to Windows files from the Linux side.
+            </p>
+          </section>
+
+          <!-- Concepts -->
+          <section>
+            <p class="article-p leading-relaxed">
+              Before demonstrating how to set this up, let's first dive into some foundational concepts to understand the essentials of mounting and the CIFS protocol:
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">What is Mount on Linux? 🐧</h2>
+            <p class="article-p leading-relaxed mb-4">
+              In Linux, "mounting" refers to the process of making a file system accessible within the directory tree, creating a link between the operating system and the storage device. After a file system is mounted, it becomes available at a specific location known as the <strong style="color: var(--color-text);">mount point</strong>, which serves as a doorway to access its contents.
+            </p>
+            <p class="article-p leading-relaxed">
+              A good analogy to understand mounting is to think of a house. Imagine the house as the Linux file system, with its main entrance as the <code>/</code> directory (root). Adding a new device or file system to Linux is similar to adding a new room to the house. To access this room, you need a doorway — analogous to the mount point. The mount point is an existing directory path in the Linux file system where you attach, or "mount," the additional storage.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">What is a File System? 🗄</h2>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/linux-mounting-cifs-diagram.png"
+                alt="Diagram showing how CIFS connects a Linux client to a Windows file server"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                CIFS client-server model — Linux accessing a Windows shared folder
+              </figcaption>
+            </figure>
+            <p class="article-p leading-relaxed">
+              A file system organizes and manages how data is stored and retrieved on storage devices. It allows operating systems to create, read, update, and delete files. Different operating systems use various file system formats, like NTFS for Windows and ext4 for Linux. To access files from one system on another, the file system needs compatibility or a protocol like CIFS to bridge the gap.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">What is CIFS? 🌐</h2>
+            <p class="article-p leading-relaxed mb-4">
+              CIFS, or <strong style="color: var(--color-text);">Common Internet File System</strong>, is a protocol used for file sharing over networks, functioning as a dialect of the SMB (Server Message Block) protocol. Originally developed by IBM and later expanded by Microsoft, CIFS allows multiple users to access and share files and printers on a network.
+            </p>
+            <p class="article-p leading-relaxed">
+              CIFS works on a client-server model, where a client requests a file or resource from a server over the network. After an initial request, a session is established, typically requiring authentication to ensure secure access. Once authenticated, the client can perform actions on the shared resources — reading, writing, deleting, or executing files and directories — as permitted by the server.
+            </p>
+          </section>
+
+          <!-- Creating the Mount -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Creating the Mount 🔧</h2>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Step 1: Install CIFS Utilities</h2>
+            <p class="article-p leading-relaxed mb-4">
+              To mount a CIFS share, you'll need the <code>cifs-utils</code> package, which provides the necessary tools. Install it by running:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo apt-get update
+sudo apt-get install cifs-utils</code></pre>
+            </div>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Step 2: Create a Mount Point</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Choose a directory where you want the CIFS share to be accessible. Create this directory as the mount point:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-4">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mkdir -p /mnt/path_to_be_shared</code></pre>
+            </div>
+            <p class="article-p leading-relaxed">
+              <strong style="color: var(--color-text);">Note:</strong> Ensure this directory is empty, as mounting a file system over an existing directory will make the directory's original contents temporarily inaccessible.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Step 3: Mount the CIFS Share</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Use the following command to mount the Windows share:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mount -t cifs //WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared -o username=WINDOWS_USER,password=WINDOWS_PASSWORD</code></pre>
+            </div>
+            <ul class="space-y-3 mb-4">
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">The first argument (<code>//WINDOWS_SERVER_IP/SharedFolder</code>) is the path to the Windows shared folder.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">The second argument (<code>/mnt/path_to_be_shared</code>) is the mount point.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">The <code>-t</code> option specifies the type of file system — here <code>cifs</code>.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">The <code>-o</code> option allows a list of mounting options, in this case specifying the username and password for Windows server authentication.</span>
+              </li>
+            </ul>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Step 4: Verify the Mount</h2>
+            <p class="article-p leading-relaxed mb-4">
+              To confirm the CIFS share is mounted successfully, run:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-4">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>df -h | grep windows_share</code></pre>
+            </div>
+            <p class="article-p leading-relaxed">
+              This command lists mounted file systems, filtering the output for entries related to the Windows share.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Step 5: Unmounting the Share</h2>
+            <p class="article-p leading-relaxed mb-4">
+              When you no longer need access to the mounted directory, unmount it with:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo umount /mnt/path_to_be_shared</code></pre>
+            </div>
+          </section>
+
+          <!-- Credentials file -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Creating the Mount with a Credentials File 🔐</h2>
+            <p class="article-p leading-relaxed mb-8">
+              For security, storing credentials directly in the command isn't recommended. Instead, create a credentials file and set the appropriate permissions:
+            </p>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Step 1 — create the credentials file</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo nano /etc/credentials</code></pre>
+            </div>
+
+            <p class="article-p leading-relaxed mb-3">Inside the file, add your Windows credentials:</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>username=WINDOWS_USER
+password=WINDOWS_PASSWORD</code></pre>
+            </div>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Step 2 — lock down the file</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo chmod 600 /etc/credentials</code></pre>
+            </div>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Step 3 — mount using the credentials file</p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mount -t cifs //WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared -o credentials=/etc/credentials</code></pre>
+            </div>
+          </section>
+
+          <!-- fstab -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">What is fstab? ⚙️</h2>
+            <p class="article-p leading-relaxed mb-6">
+              The fstab file (located at <code>/etc/fstab</code>) is a configuration file that specifies which file systems should be mounted at boot. By adding the CIFS mount to fstab, you can automate the mounting process to ensure the Windows share is available each time the system starts. Here's an example entry:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>//WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared cifs credentials=/etc/credentials 0 0</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-4">Each field specifies the following:</p>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">File system:</span> <code>//WINDOWS_SERVER_IP/SharedFolder</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Mount point:</span> <code>/mnt/path_to_be_shared</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">File system type:</span> <code>cifs</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Options:</span> <code>credentials=/etc/credentials</code></span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Conclusion -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Conclusion 🏁</h2>
+            <p class="article-p leading-relaxed">
+              Mounting a Windows directory on Linux using CIFS is a straightforward yet powerful way to facilitate cross-platform file sharing. By understanding how mounting works in Linux and utilizing tools like CIFS, you can seamlessly integrate Windows shares into a Linux environment. This approach is invaluable for businesses and individuals who require regular, secure access to files across diverse operating systems.
             </p>
           </section>
 

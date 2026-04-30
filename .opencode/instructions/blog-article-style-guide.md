@@ -142,3 +142,15 @@ Use these above a code block to label it as a best-practice or note:
 2. In `[slug].astro`, add a new `const isXxxPost = post.id === 'your-slug';` variable.
 3. Add a new conditional block `{isXxxPost ? ( ... ) : null}` (or extend the existing ternary chain) following the structure above.
 4. Use `new Date(year, month - 1, day)` (split from the `YYYY-MM-DD` string) for date formatting — **never** `new Date(post.date)` directly, as that parses as UTC and causes off-by-one day errors in local timezones.
+
+## Adding images to a post
+
+All blog images are served from `public/images/blog/` and referenced with the `/my-portfolio/images/blog/` prefix.
+
+**Workflow:**
+
+1. Copy the image file into `public/images/blog/` using a descriptive kebab-case filename (e.g. `linux-mounting-hero.jpg`). Never use the original Medium hash filenames.
+2. When importing images from a saved Medium HTML page, inspect the `<img>` tags in the HTML to identify which images are actual article content (typically `width="700"` and `role="presentation"`) vs. UI chrome (avatars, publication icons at 16–32 px). Only copy content images.
+3. Use the `<figure>` pattern in the article — see **Figures / diagrams** section above.
+4. Hero / intro images (appear before the first paragraph) need no `<figcaption>`. Inline diagram images should always have a caption describing what the diagram shows.
+5. The site base path is `/my-portfolio` — all `src` attributes must start with `/my-portfolio/images/blog/your-image.ext`.
