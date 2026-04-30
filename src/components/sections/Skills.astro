@@ -12,6 +12,9 @@ const categoryLabels: Record<string, string> = {
 ---
 
 <section id="skills" class="skills-section section" aria-label="Skills and tech stack">
+  <!-- Static diagonal shape -->
+  <div class="skills-band" aria-hidden="true"></div>
+
   <div class="content-wrap skills-content">
     <h2 class="section-title reveal reveal-left"><span>#</span> Skills & Tech Stack</h2>
     <div class="section-divider reveal"></div>
@@ -39,61 +42,10 @@ const categoryLabels: Record<string, string> = {
   </div>
 </section>
 
-<!-- Bands rendered outside section so no clipping context applies -->
-<div class="skills-band" aria-hidden="true"></div>
-<div class="skills-band-2" aria-hidden="true"></div>
-
-<script>
-  const section = document.querySelector<HTMLElement>('#skills');
-  const band = document.querySelector<HTMLElement>('.skills-band');
-  const band2 = document.querySelector<HTMLElement>('.skills-band-2');
-
-  if (section && (band || band2)) {
-    function updateBands() {
-      const rect = section!.getBoundingClientRect();
-      const viewH = window.innerHeight;
-
-      // Mirror the section's vertical position onto the fixed bands
-      const top = rect.top;
-      const height = rect.height;
-
-      if (band)  { band.style.top  = `${top}px`;  band.style.height  = `${height}px`; }
-      if (band2) { band2.style.top = `${top}px`;  band2.style.height = `${height}px`; }
-
-      // progress: 0 when section top hits bottom of viewport → 1 when section bottom hits top
-      const total = viewH + height;
-      const progress = Math.min(1, Math.max(0, (viewH - rect.top) / total));
-
-      // Fade out completely when section is out of view
-      const inView = rect.bottom > 0 && rect.top < viewH;
-
-      // Band 1: slides from -100vw to 0 as progress goes 0→0.6
-      const b1 = Math.min(1, progress / 0.6);
-      const b1e = 1 - Math.pow(1 - b1, 3);
-      if (band) {
-        band.style.transform = `skewY(-8deg) translateX(${-100 + b1e * 100}vw)`;
-        band.style.opacity = inView ? String(b1e * 0.28) : '0';
-      }
-
-      // Band 2: slides from 100vw to 0 (opposite direction) as progress goes 0.1→0.7
-      const b2 = Math.min(1, Math.max(0, (progress - 0.1) / 0.6));
-      const b2e = 1 - Math.pow(1 - b2, 3);
-      if (band2) {
-        band2.style.transform = `skewY(-8deg) translateX(${100 - b2e * 100}vw)`;
-        band2.style.opacity = inView ? String(b2e * 0.18) : '0';
-      }
-    }
-
-    window.addEventListener('scroll', updateBands, { passive: true });
-    updateBands(); // initialise
-  }
-</script>
-
 <style>
   .skills-section {
     background: transparent;
     position: relative;
-    z-index: 1;
   }
 
   .skills-content {
@@ -105,32 +57,18 @@ const categoryLabels: Record<string, string> = {
     color: var(--color-muted);
   }
 
-  /* ── Diagonal band shapes ─────────────────────────────────────── */
-  .skills-band,
-  .skills-band-2 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 0; /* set by JS to match section height */
-    overflow: hidden;
-    pointer-events: none;
-    will-change: transform, opacity;
-    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
-    z-index: 99;
-  }
-
-  /* Wide primary band — solid accent, slides from left */
+  /* ── Static diagonal shape ─────────────────────────────────────── */
   .skills-band {
+    position: absolute;
+    top: -10%;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%) skewY(-8deg);
+    width: 100vw;
     background: var(--color-accent);
-    transform: skewY(-8deg) translateX(-120vw);
-    opacity: 0;
-  }
-
-  /* Thinner secondary band — solid accent, slides from right */
-  .skills-band-2 {
-    background: var(--color-accent);
-    transform: skewY(-8deg) translateX(120vw);
-    opacity: 0;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
   }
 </style>
