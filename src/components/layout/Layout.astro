@@ -33,5 +33,51 @@ const { title = 'Alex Dev — Portfolio', description = 'Personal portfolio of A
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // ── Scroll reveal (IntersectionObserver) ──────────────────────────────
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => {
+        revealObserver.observe(el);
+      });
+
+      // ── Hero parallax ─────────────────────────────────────────────────────
+      const heroGlow = document.querySelector<HTMLElement>('.hero-glow');
+      const heroContent = document.querySelector<HTMLElement>('.hero-content');
+      const heroSection = document.querySelector<HTMLElement>('#hero');
+
+      function onScroll() {
+        if (!heroSection) return;
+        const scrollY = window.scrollY;
+        const heroH = heroSection.offsetHeight;
+        if (scrollY > heroH) return;
+
+        const ratio = scrollY / heroH; // 0 → 1
+
+        // Glow orb drifts upward slower than scroll (parallax depth)
+        if (heroGlow) {
+          heroGlow.style.transform = `translate(-50%, calc(-50% - ${scrollY * 0.35}px))`;
+        }
+
+        // Hero text fades + lifts as user scrolls away
+        if (heroContent) {
+          heroContent.style.opacity = String(1 - ratio * 1.6);
+          heroContent.style.transform = `translateY(${scrollY * 0.25}px)`;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+    </script>
   </body>
 </html>

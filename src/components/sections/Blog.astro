@@ -9,10 +9,10 @@ import BlogCard from '../ui/BlogCard.astro';
   aria-label="Blog"
 >
   <div class="content-wrap">
-    <h2 class="section-title"><span>#</span> Blog</h2>
-    <div class="section-divider"></div>
+    <h2 class="section-title reveal reveal-left"><span>#</span> Blog</h2>
+    <div class="section-divider reveal"></div>
 
-    <div class="grid sm:grid-cols-2 gap-6">
+    <div class="grid sm:grid-cols-2 gap-6 reveal-stagger">
       {blogPosts.map((post) => <BlogCard post={post} />)}
     </div>
   </div>
