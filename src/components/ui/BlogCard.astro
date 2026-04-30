@@ -6,7 +6,8 @@ interface Props {
 }
 const { post } = Astro.props;
 
-const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+const [year, month, day] = post.date.split('-').map(Number);
+const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',

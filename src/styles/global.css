@@ -131,6 +131,7 @@ body {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-text);
+  margin-top: 3rem;
   margin-bottom: 0.5rem;
 }
 

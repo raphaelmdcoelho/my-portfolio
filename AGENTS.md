@@ -62,3 +62,8 @@ src/
 ## No CI or pre-commit hooks
 
 Zero automated quality gates. Run `npm run astro -- check && npm run build` manually to verify changes.
+
+## Blog article style guide
+
+See [`.opencode/instructions/blog-article-style-guide.md`](.opencode/instructions/blog-article-style-guide.md) for the full formatting, color, font, and layout rules to follow when writing or editing blog posts.
+

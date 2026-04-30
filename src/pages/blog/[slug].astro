@@ -11,7 +11,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+const [year, month, day] = post.date.split('-').map(Number);
+const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -333,6 +334,10 @@ const isStreamPost = post.id === 'how-stream-works-in-csharp';
 <style>
   .back-link:hover {
     color: var(--color-accent) !important;
+  }
+
+  .article-body h2 {
+    margin-top: 3rem;
   }
 
   .article-body .code-block {
