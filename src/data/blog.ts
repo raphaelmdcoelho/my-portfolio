@@ -9,39 +9,12 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: 'astro-vs-nextjs',
-    title: 'Astro vs Next.js: Choosing the Right Framework for Your Project',
-    date: '2026-03-15',
+    id: 'how-stream-works-in-csharp',
+    title: 'How does Stream work in C#?',
+    date: '2024-01-01',
     excerpt:
-      'A deep dive into the trade-offs between Astro and Next.js. When should you pick one over the other, and why Astro might be the answer for content-heavy sites.',
-    url: '/blog/astro-vs-nextjs',
-    tags: ['Astro', 'Next.js', 'Web Dev'],
-  },
-  {
-    id: 'tailwind-v4-what-changed',
-    title: 'Tailwind CSS v4: What Changed and Why It Matters',
-    date: '2026-02-28',
-    excerpt:
-      'Tailwind v4 rewrote the engine with a new Rust-based compiler. Here is what that means for your workflow, build times, and configuration.',
-    url: '/blog/tailwind-v4-what-changed',
-    tags: ['CSS', 'Tailwind', 'Performance'],
-  },
-  {
-    id: 'typescript-strict-mode',
-    title: 'Why You Should Enable TypeScript Strict Mode Today',
-    date: '2026-01-10',
-    excerpt:
-      'Strict mode catches entire categories of bugs at compile time. Here is a practical guide to enabling it in an existing project without losing your mind.',
-    url: '/blog/typescript-strict-mode',
-    tags: ['TypeScript', 'Best Practices'],
-  },
-  {
-    id: 'docker-for-developers',
-    title: 'Docker for Developers: The Setup I Actually Use',
-    date: '2025-12-05',
-    excerpt:
-      'Not a Docker tutorial — a real-world walkthrough of the compose setup, volume strategies, and dev container config I reach for on every project.',
-    url: '/blog/docker-for-developers',
-    tags: ['Docker', 'DevOps', 'Workflow'],
+      'Streams are a fundamental concept in C# for handling large amounts of data, network communication, and file I/O operations. Learn how they work, when to use them, and best practices for managing their lifecycle.',
+    url: '/my-portfolio/blog/how-stream-works-in-csharp',
+    tags: ['C#', '.NET', 'Streams', 'I/O'],
   },
 ];
