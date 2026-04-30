@@ -120,32 +120,16 @@ const categoryLabels: Record<string, string> = {
     z-index: 99;
   }
 
-  /* Wide primary band — solid accent stripe, slides from left */
+  /* Wide primary band — solid accent, slides from left */
   .skills-band {
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      transparent 30%,
-      var(--color-accent) 42%,
-      var(--color-accent) 58%,
-      transparent 70%,
-      transparent 100%
-    );
+    background: var(--color-accent);
     transform: skewY(-8deg) translateX(-120vw);
     opacity: 0;
   }
 
-  /* Thinner secondary band — slides from right */
+  /* Thinner secondary band — solid accent, slides from right */
   .skills-band-2 {
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      transparent 38%,
-      var(--color-accent) 46%,
-      var(--color-accent) 54%,
-      transparent 62%,
-      transparent 100%
-    );
+    background: var(--color-accent);
     transform: skewY(-8deg) translateX(120vw);
     opacity: 0;
   }
