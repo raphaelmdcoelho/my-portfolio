@@ -2,13 +2,14 @@
 import '../../styles/global.css';
 import Navbar from './Navbar.astro';
 import Footer from './Footer.astro';
+import { config } from '../../data/config';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'Alex Dev — Portfolio', description = 'Personal portfolio of Alex Dev, Full Stack Developer.' } = Astro.props;
+const { title = `${config.name} — Portfolio`, description = `Personal portfolio of ${config.name}, ${config.title}.` } = Astro.props;
 ---
 
 <!doctype html>
