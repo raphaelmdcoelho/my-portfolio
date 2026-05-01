@@ -12,11 +12,11 @@ const { project } = Astro.props;
   <div class="fill-overlay absolute inset-0 z-0 pointer-events-none rounded-xl" aria-hidden="true"></div>
 
   <!-- Image -->
-  <div class="project-img-wrap relative z-10 rounded-lg h-44 overflow-hidden">
+  <div class="project-img-wrap relative z-10 rounded-lg h-64 overflow-hidden">
     <img
       src={project.imageUrl}
       alt={`Screenshot of ${project.title}`}
-      class="w-full h-full object-cover transition-transform duration-500 project-img"
+      class="w-full h-full object-cover transition-transform duration-500 project-img" style="transform: scale(0.95); object-position: top;"
       loading="lazy"
       onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
     />
@@ -113,7 +113,7 @@ const { project } = Astro.props;
   }
 
   .project-card:hover .project-img {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
 
   .project-img-wrap {
