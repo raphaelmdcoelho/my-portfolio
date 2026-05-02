@@ -21,4 +21,15 @@ export const projects: Project[] = [
     imageUrl: '/my-portfolio/images/poster.png',
     featured: true,
   },
+  {
+    id: 'func-viewer',
+    title: 'Func Viewer',
+    description:
+      'A handwriting recognition app for linear expressions. Draw a function like 2x+1 on the canvas and the app instantly parses the slope and intercept, rendering the corresponding graph in real time.',
+    tags: ['JavaScript', 'Canvas', 'Math', 'Handwriting Recognition'],
+    repoUrl: 'https://github.com/raphaelmdcoelho/func-viewer',
+    liveUrl: 'https://raphaelmdcoelho.github.io/func-viewer/',
+    imageUrl: '',
+    featured: false,
+  },
 ];
