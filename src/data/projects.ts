@@ -29,6 +29,6 @@ export const projects: Project[] = [
     tags: ['TypeScript', 'CSS', 'Design Tokens', 'Angular', 'Storybook'],
     repoUrl: 'https://github.com/raphaelmdcoelho/grass-ds',
     liveUrl: 'https://raphaelmdcoelho.github.io/grass-ds/',
-    imageUrl: '/my-portfolio/images/poster.png',
+    imageUrl: '/my-portfolio/images/grass-thumbnail.png',
   },
 ];
