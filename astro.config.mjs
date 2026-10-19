@@ -7,6 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://raphaelmdcoelho.github.io',
   base: '/my-portfolio',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'pt'],
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

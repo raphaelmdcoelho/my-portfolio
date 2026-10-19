@@ -1,22 +1,21 @@
 ---
 import { config } from '../../data/config';
 import SkillBadge from '../ui/SkillBadge.astro';
+import { getLang, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 const categories = ['frontend', 'backend', 'devops', 'tools'] as const;
-const categoryLabels: Record<string, string> = {
-  frontend: 'Frontend',
-  backend: 'Backend',
-  devops: 'DevOps',
-  tools: 'Tools',
-};
+const categoryLabels = t.skills.categories;
 ---
 
-<section id="skills" class="skills-section section" aria-label="Skills and tech stack">
+<section id="skills" class="skills-section section" aria-label={t.skills.aria}>
   <!-- Static diagonal shape -->
   <div class="skills-band" aria-hidden="true"></div>
 
   <div class="content-wrap skills-content">
-    <h2 class="section-title reveal reveal-left"><span>#</span> Skills & Tech Stack</h2>
+    <h2 class="section-title reveal reveal-left"><span>#</span> {t.skills.title}</h2>
     <div class="section-divider reveal"></div>
 
     <div class="space-y-10">

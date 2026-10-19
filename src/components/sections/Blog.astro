@@ -1,15 +1,19 @@
 ---
 import { blogPosts } from '../../data/blog';
 import BlogCard from '../ui/BlogCard.astro';
+import { getLang, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
 <section
   id="blog"
   style="background: var(--color-surface); padding-top: 6rem; padding-bottom: 6rem;"
-  aria-label="Blog"
+  aria-label={t.blog.aria}
 >
   <div class="content-wrap">
-    <h2 class="section-title reveal reveal-left"><span>#</span> Blog</h2>
+    <h2 class="section-title reveal reveal-left"><span>#</span> {t.blog.title}</h2>
     <div class="section-divider reveal"></div>
 
     <div class="grid sm:grid-cols-2 gap-6 reveal-stagger">

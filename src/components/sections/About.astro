@@ -1,10 +1,14 @@
 ---
 import { config } from '../../data/config';
+import { getLang, loc, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
-<section id="about" class="section" aria-label="About me">
+<section id="about" class="section" aria-label={t.about.aria}>
   <div class="content-wrap">
-    <h2 class="section-title reveal reveal-left"><span>#</span> About Me</h2>
+    <h2 class="section-title reveal reveal-left"><span>#</span> {t.about.title}</h2>
     <div class="section-divider reveal"></div>
 
     <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -12,7 +16,7 @@ import { config } from '../../data/config';
       <div class="reveal">
         <div class="space-y-4">
           {
-            config.bio.split('\n').filter(Boolean).map((paragraph) => (
+            loc(config.bio, lang).split('\n').filter(Boolean).map((paragraph) => (
               <p class="about-bio leading-relaxed">
                 {paragraph.trim()}
               </p>
@@ -53,7 +57,7 @@ import { config } from '../../data/config';
         <div class="avatar-frame relative w-64 h-64 rounded-2xl overflow-hidden">
           <img
             src={config.avatar}
-            alt={`Portrait of ${config.name}`}
+            alt={t.about.portraitOf(config.name)}
             class="w-full h-full object-cover"
             loading="lazy"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"

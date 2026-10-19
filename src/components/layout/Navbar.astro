@@ -1,13 +1,21 @@
 ---
 import { config } from '../../data/config';
+import { getLang, localePath, stripLocale, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#blog', label: 'Blog' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#about', label: t.nav.about },
+  { href: '#skills', label: t.nav.skills },
+  { href: '#projects', label: t.nav.projects },
+  { href: '#blog', label: t.nav.blog },
+  { href: '#contact', label: t.nav.contact },
 ];
+
+// Same page in the other language
+const otherLang = lang === 'en' ? 'pt' : 'en';
+const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
 ---
 
 <header
@@ -19,13 +27,13 @@ const navLinks = [
     <a
       href="#hero"
       class="navbar-logo font-mono font-bold text-lg"
-      aria-label="Home"
+      aria-label={t.nav.home}
     >
       &lt;{config.name.split(' ')[0].toLowerCase()} /&gt;
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+    <nav class="hidden md:flex items-center gap-8" aria-label={t.nav.main}>
       {
         navLinks.map((link) => (
           <a
@@ -36,13 +44,22 @@ const navLinks = [
           </a>
         ))
       }
+      <a
+        href={switchHref}
+        hreflang={otherLang}
+        lang={otherLang}
+        class="lang-switch font-mono text-xs px-2 py-1 rounded border transition-colors duration-200"
+        aria-label={t.langSwitchLabel}
+      >
+        {t.langSwitchShort}
+      </a>
     </nav>
 
     <!-- Mobile hamburger -->
     <button
       id="menu-toggle"
       class="navbar-toggle md:hidden p-2 rounded"
-      aria-label="Toggle menu"
+      aria-label={t.nav.toggleMenu}
       aria-expanded="false"
     >
       <svg id="icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -59,7 +76,7 @@ const navLinks = [
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="mobile-menu hidden md:hidden px-6 pb-4">
-    <nav class="flex flex-col gap-4 pt-4" aria-label="Mobile navigation">
+    <nav class="flex flex-col gap-4 pt-4" aria-label={t.nav.mobile}>
       {
         navLinks.map((link) => (
           <a
@@ -70,6 +87,15 @@ const navLinks = [
           </a>
         ))
       }
+      <a
+        href={switchHref}
+        hreflang={otherLang}
+        lang={otherLang}
+        class="lang-switch font-mono text-xs px-2 py-1 rounded border w-fit transition-colors duration-200"
+        aria-label={t.langSwitchLabel}
+      >
+        {t.langSwitchShort}
+      </a>
     </nav>
   </div>
 </header>
@@ -100,6 +126,16 @@ const navLinks = [
   .nav-link:hover,
   .mobile-nav-link:hover {
     color: var(--color-accent) !important;
+  }
+
+  .lang-switch {
+    color: var(--color-accent);
+    border-color: var(--color-border);
+  }
+
+  .lang-switch:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-dim);
   }
 
   .nav-link.active {
@@ -149,6 +185,13 @@ const navLinks = [
       iconOpen?.classList.remove('hidden');
       iconClose?.classList.add('hidden');
       menuToggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Keep the current section when switching language
+  document.querySelectorAll<HTMLAnchorElement>('.lang-switch').forEach((link) => {
+    link.addEventListener('click', () => {
+      link.hash = window.location.hash;
     });
   });
 
