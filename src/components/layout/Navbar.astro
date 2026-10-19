@@ -6,15 +6,16 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 const navLinks = [
-  { href: '#about', label: t.nav.about },
-  { href: '#skills', label: t.nav.skills },
-  { href: '#projects', label: t.nav.projects },
-  { href: '#blog', label: t.nav.blog },
-  { href: '#contact', label: t.nav.contact },
-];
+  { id: 'about', label: t.nav.about },
+  { id: 'skills', label: t.nav.skills },
+  { id: 'projects', label: t.nav.projects },
+  { id: 'blog', label: t.nav.blog },
+  { id: 'contact', label: t.nav.contact },
+].map(({ id, label }) => ({ id, label, href: `${localePath(lang)}#${id}` }));
 
 // Same page in the other language
 const otherLang = lang === 'en' ? 'pt' : 'en';
+const onBlog = stripLocale(Astro.url.pathname).startsWith('blog');
 const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
 ---
 
@@ -25,7 +26,7 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
   <div class="navbar-inner content-wrap flex items-center justify-between">
     <!-- Logo -->
     <a
-      href="#hero"
+      href={`${localePath(lang)}#hero`}
       class="navbar-logo font-mono font-bold text-lg"
       aria-label={t.nav.home}
     >
@@ -38,7 +39,7 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
         navLinks.map((link) => (
           <a
             href={link.href}
-            class="nav-link font-mono text-sm transition-colors duration-200"
+            class:list={['nav-link font-mono text-sm transition-colors duration-200', { active: onBlog && link.id === 'blog' }]}
           >
             {link.label}
           </a>
@@ -208,7 +209,7 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
         if (entry.isIntersecting) {
           navLinks.forEach((link) => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${entry.target.id}`) {
+            if (link.getAttribute('href')?.endsWith(`#${entry.target.id}`)) {
               link.classList.add('active');
             }
           });
