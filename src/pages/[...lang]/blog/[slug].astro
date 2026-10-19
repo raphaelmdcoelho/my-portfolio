@@ -66,9 +66,240 @@ const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
         </div>
       </div>
 
-      {lang !== 'en' && <p class="article-notice font-mono text-sm mb-8">{t.blog.englishOnly}</p>}
-
       {isStreamPost ? (
+        lang === 'pt' ? (
+        <div class="article-body space-y-14">
+
+          <!-- Introduction -->
+          <section>
+            <p class="article-p leading-relaxed mb-4">
+              Streams são um conceito fundamental em C# para lidar com grandes volumes de dados, comunicação de rede e operações de E/S de arquivos que podem levar tempo para terminar. Em muitos casos, a duração dessas operações é imprevisível, então é essencial ter um mecanismo que não bloqueie o processo inteiro enquanto espera pelos resultados.
+            </p>
+            <p class="article-p leading-relaxed mb-4">
+              Stream é uma abstração que carrega uma sequência de bytes. Esses bytes representam alguma informação; um aspecto importante é que você não precisa carregar tudo na memória ao ler dados por meio de streams.
+            </p>
+            <p class="article-p leading-relaxed">
+              Streams possuem algumas operações que permitem ler informações que ainda precisam ser carregadas. Essas operações são <code>Read</code>, <code>Write</code> e <code>Seek</code>. Então vamos falar sobre isso 🧠
+            </p>
+          </section>
+
+          <!-- Benefits -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Benefícios de Usar Streams 👍</h2>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Acesso Imediato aos Dados:</span> Você pode ler ou escrever dados mesmo quando a operação ainda não foi totalmente concluída, permitindo um tratamento de dados mais flexível.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Eficiência de Recursos:</span> Streams ajudam a reduzir o uso de memória ao processar os dados em partes, em vez de carregar tudo de uma vez.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Escalabilidade:</span> Streams são ideais para cenários que exigem processamento de dados em grande escala, como a leitura de arquivos de log ou a transmissão de conteúdo multimídia.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Drawbacks -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Possíveis Desvantagens dos Streams 👎</h2>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Complexidade:</span> Trabalhar com streams pode ser mais complexo do que lidar com dados estáticos, exigindo cuidado para evitar problemas como corrupção de dados.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Tratamento de Erros:</span> Streams podem exigir um tratamento de erros adicional, já que interrupções de rede ou corrupção de arquivos podem ocorrer durante a transmissão.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Sem Reler sem Seek:</span> Depois de processar um stream, muitas vezes não é possível voltar a um ponto anterior sem usar o método <code>Seek</code>, que pode não ser suportado por todos os streams.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Visualizing Streams -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Visualizando Streams 🧐</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Uma analogia útil para entender streams é pensar neles como torneiras que permitem que os dados fluam continuamente. Assim como uma torneira de cozinha, o fluxo pode ser lento ou rápido, dependendo da situação. Alguns streams podem terminar rapidamente, enquanto outros podem levar muito mais tempo.
+            </p>
+            <p class="article-p leading-relaxed mb-4">
+              Nessa analogia, o <strong class="article-strong">buffer</strong> funciona como um balde. Ele recolhe os dados conforme eles fluem, permitindo que você os acesse e processe. Se a torneira (stream) for interrompida, o buffer mantém o que foi coletado até então.
+            </p>
+            <p class="article-p leading-relaxed mb-6">
+              Outro aspecto importante é saber de onde retomar a leitura quando o buffer está cheio. O <strong class="article-strong">cursor</strong> do stream cumpre esse papel — na analogia, você pode pensar no cursor como o registro da torneira. Ele controla o fluxo de água, permitindo parar e iniciar o stream conforme necessário. O processo de mover o cursor é chamado de <strong class="article-strong">seek</strong>.
+            </p>
+
+            <!-- Diagram -->
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/stream-diagram.png"
+                alt="Diagrama ilustrando como stream, buffer e cursor trabalham juntos"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Stream, buffer e cursor — a analogia da torneira
+              </figcaption>
+            </figure>
+          </section>
+
+          <!-- Reading File Content -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Lendo o Conteúdo de um Arquivo com Stream em C# 🔥</h2>
+            <p class="article-p leading-relaxed mb-8">
+              Este é um exemplo de leitura de dados de um arquivo usando a classe <code>FileStream</code> em C#. A classe <code>FileStream</code> herda da classe abstrata <code>Stream</code>, que fornece métodos para lidar com streams.
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// Exemplo de leitura com FileStream</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+{'{'}
+  byte[] buffer = new byte[1024];
+  int bytesRead;
+  while((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+  {'{'}
+    string content = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+    Console.WriteLine(content);
+  {'}'}
+{'}'}</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-3">
+              Neste exemplo, lemos dados de um arquivo de forma assíncrona usando um buffer — um array de bytes. Os dados fluem para o buffer parcialmente, conforme a sua capacidade, e o loop <code>while</code> continua preenchendo o buffer até que todo o stream seja lido. A propriedade <code>Position</code> acompanha a última posição lida por meio do cursor.
+            </p>
+            <p class="article-p leading-relaxed">
+              Usamos <code>Encoding.UTF8.GetString(buffer, 0, bytesRead)</code> para transformar os bytes em uma string, mas podemos tratar qualquer tipo de informação, já que a temos como um array de bytes.
+            </p>
+          </section>
+
+          <!-- Stream Position & Flushing -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Controlando a Posição do Stream e o Flush 👀</h2>
+            <p class="article-p leading-relaxed mb-8">
+              Se você precisar redefinir a posição do stream, verifique se <code>CanSeek</code> é verdadeiro e use <code>Seek</code> para voltar ao início:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>if (stream.CanSeek)
+{'{'}
+  stream.Seek(0, SeekOrigin.Begin);
+{'}'}</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-8">
+              Ao trabalhar com streams de escrita, use <code>Flush</code> para garantir que todos os dados em buffer sejam gravados no armazenamento subjacente. Isso é fundamental para evitar perda de dados:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write))
+{'{'}
+    byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+    stream.Write(dataBytes, 0, dataBytes.Length);
+    stream.Flush(); // Garante que todos os dados sejam gravados em disco ou transmitidos
+{'}'}</code></pre>
+            </div>
+          </section>
+
+          <!-- Stream Lifecycle -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Ciclo de Vida do Stream ⏱</h2>
+            <p class="article-p leading-relaxed mb-5">
+              O ciclo de vida de um stream envolve várias etapas principais: criação, uso (leitura, escrita, seek) e descarte. Entender e gerenciar cada etapa corretamente é essencial para uma operação eficiente e livre de erros.
+            </p>
+            <ul class="space-y-4 mb-6">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Criação:</span> Streams são instanciados quando uma fonte de dados (arquivo, memória ou conexão de rede) é aberta. Parâmetros de configuração na instanciação, como caminho do arquivo, modo de acesso e tamanho do buffer, definem o comportamento do stream.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Uso:</span> Durante o uso, os dados fluem pelo stream por meio de operações de leitura, escrita e seek. Cada operação afeta a posição do stream, acompanhada pelo cursor interno.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Flush:</span> Para streams de escrita, use <code>Flush</code> para enviar todos os dados em buffer à fonte de dados subjacente antes de o stream ser fechado, evitando perda de dados.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Descarte:</span> Streams implementam <code>IDisposable</code> e devem ser descartados com uma instrução <code>using</code>, liberando handles de arquivo, conexões de rede ou buffers de memória.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Tratamento de Erros:</span> Use <code>try-catch</code> nas operações com streams para tratar com elegância problemas de acesso a arquivos, timeouts de rede ou corrupção de dados.</span>
+              </li>
+            </ul>
+
+            <p class="article-annotation font-mono text-sm mb-8">// Boas práticas</p>
+
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+{'{'}
+    // Execute as operações de leitura
+{'}'} // O stream é descartado automaticamente aqui</code></pre>
+            </div>
+
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+{'{'}
+    if (stream.CanRead)
+    {'{'}
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+        {'{'}
+            string content = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            Console.WriteLine(content);
+        {'}'}
+    {'}'}
+    else
+    {'{'}
+        Console.WriteLine("O stream não suporta leitura.");
+    {'}'}
+{'}'}</code></pre>
+            </div>
+          </section>
+
+          <!-- Types of Streams -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Diferentes Tipos de Streams em C# 🧬</h2>
+            <p class="article-p leading-relaxed mb-5">
+              Embora os exemplos acima usem <code>FileStream</code>, o C# oferece várias implementações de stream:
+            </p>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">MemoryStream</code> — Armazena dados em memória; útil para armazenamento temporário e operações que não exigem escrita em disco.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">NetworkStream</code> — Permite a transmissão de dados pela rede, frequentemente usado em conexões TCP/IP.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">CryptoStream</code> — Aplica transformações criptográficas para o tratamento seguro de dados (criptografia/descriptografia).</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">BufferedStream</code> — Adiciona buffering a outro stream, melhorando o desempenho em operações repetidas de leitura/escrita.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><code class="article-strong">GZipStream</code> — Comprime ou descomprime dados usando o algoritmo GZip, ideal para reduzir o espaço de armazenamento e o tempo de transmissão.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Conclusion -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Conclusão 🏁</h2>
+            <p class="article-p leading-relaxed">
+              Streams são uma ferramenta fundamental e versátil em C# que permite o processamento eficiente de dados em operações de E/S de grande escala, como manipulação de arquivos, comunicação de rede e processamento de dados em tempo real. Ao compreender as nuances do uso de streams — incluindo otimização de desempenho, tratamento de erros eficaz e gerenciamento adequado do ciclo de vida — desenvolvedores podem aproveitar ao máximo os streams para construir aplicações responsivas, econômicas em recursos e escaláveis. Saber usar os diferentes tipos de streams e aplicar boas práticas garante que suas aplicações lidem com dados de forma segura e eficiente, liberando todo o potencial desse poderoso 💪 conceito da programação em C#.
+            </p>
+          </section>
+
+        </div>
+        ) : (
         <div class="article-body space-y-14">
 
           <!-- Introduction -->
@@ -300,7 +531,205 @@ const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
           </section>
 
         </div>
+        )
       ) : isMountPost ? (
+        lang === 'pt' ? (
+        <div class="article-body space-y-14" style="margin-top: 3rem;">
+
+          <!-- Introduction -->
+          <section>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/linux-mounting-hero.jpg"
+                alt="Ilustração abstrata representando o compartilhamento de arquivos entre Linux e Windows"
+                class="article-diagram rounded-xl w-full"
+              />
+            </figure>
+            <p class="article-p leading-relaxed mb-4">
+              Em um ambiente com sistemas operacionais mistos, como um que inclui máquinas Linux e Windows, usuários e equipes frequentemente precisam de uma forma simples de acessar e compartilhar arquivos entre plataformas. No entanto, as diferenças inerentes entre os sistemas de arquivos e protocolos do Linux e do Windows podem complicar esse processo. Por exemplo, o Linux normalmente usa ext4 ou sistemas de arquivos semelhantes, enquanto o Windows utiliza o NTFS, o que torna a compatibilidade direta um desafio. Para superar essa lacuna, os protocolos de compartilhamento de arquivos em rede se tornam essenciais.
+            </p>
+            <p class="article-p leading-relaxed">
+              Uma solução eficaz para esse compartilhamento entre plataformas é usar o protocolo CIFS, que facilita a montagem de diretórios do Windows no Linux, criando uma estrutura de arquivos unificada e acessível para ambos os sistemas. Neste artigo, vamos focar no uso do CIFS para montar um diretório do Windows no Linux, dando acesso direto aos arquivos do Windows a partir do Linux.
+            </p>
+          </section>
+
+          <!-- Concepts -->
+          <section>
+            <p class="article-p leading-relaxed">
+              Antes de demonstrar como configurar isso, vamos primeiro ver alguns conceitos básicos para entender o essencial sobre montagem e o protocolo CIFS:
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">O que é Montar (Mount) no Linux? 🐧</h2>
+            <p class="article-p leading-relaxed mb-4">
+              No Linux, "montar" (mounting) se refere ao processo de tornar um sistema de arquivos acessível dentro da árvore de diretórios, criando uma ligação entre o sistema operacional e o dispositivo de armazenamento. Depois que um sistema de arquivos é montado, ele fica disponível em um local específico chamado <strong style="color: var(--color-text);">ponto de montagem</strong> (mount point), que serve como uma porta de entrada para acessar seu conteúdo.
+            </p>
+            <p class="article-p leading-relaxed">
+              Uma boa analogia para entender a montagem é pensar em uma casa. Imagine a casa como o sistema de arquivos do Linux, com a entrada principal sendo o diretório <code>/</code> (raiz). Adicionar um novo dispositivo ou sistema de arquivos ao Linux é como adicionar um novo cômodo à casa. Para acessar esse cômodo, você precisa de uma porta — o equivalente ao ponto de montagem. O ponto de montagem é um caminho de diretório existente no sistema de arquivos do Linux onde você anexa, ou "monta", o armazenamento adicional.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">O que é um Sistema de Arquivos? 🗄</h2>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/linux-mounting-cifs-diagram.png"
+                alt="Diagrama mostrando como o CIFS conecta um cliente Linux a um servidor de arquivos Windows"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Modelo cliente-servidor do CIFS — Linux acessando uma pasta compartilhada do Windows
+              </figcaption>
+            </figure>
+            <p class="article-p leading-relaxed">
+              Um sistema de arquivos organiza e gerencia como os dados são armazenados e recuperados em dispositivos de armazenamento. Ele permite que os sistemas operacionais criem, leiam, atualizem e excluam arquivos. Sistemas operacionais diferentes usam formatos diferentes, como NTFS no Windows e ext4 no Linux. Para acessar arquivos de um sistema em outro, é necessário haver compatibilidade entre os sistemas de arquivos ou um protocolo como o CIFS para fazer a ponte.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">O que é CIFS? 🌐</h2>
+            <p class="article-p leading-relaxed mb-4">
+              CIFS, ou <strong style="color: var(--color-text);">Common Internet File System</strong>, é um protocolo usado para compartilhamento de arquivos em rede, funcionando como um dialeto do protocolo SMB (Server Message Block). Desenvolvido originalmente pela IBM e depois expandido pela Microsoft, o CIFS permite que vários usuários acessem e compartilhem arquivos e impressoras em uma rede.
+            </p>
+            <p class="article-p leading-relaxed">
+              O CIFS funciona em um modelo cliente-servidor, em que um cliente solicita um arquivo ou recurso a um servidor pela rede. Após a solicitação inicial, uma sessão é estabelecida, normalmente exigindo autenticação para garantir um acesso seguro. Depois de autenticado, o cliente pode executar ações nos recursos compartilhados — ler, escrever, excluir ou executar arquivos e diretórios — conforme permitido pelo servidor.
+            </p>
+          </section>
+
+          <!-- Creating the Mount -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Criando a Montagem 🔧</h2>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Passo 1: Instale os Utilitários CIFS</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Para montar um compartilhamento CIFS, você precisará do pacote <code>cifs-utils</code>, que fornece as ferramentas necessárias. Instale-o executando:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo apt-get update
+sudo apt-get install cifs-utils</code></pre>
+            </div>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Passo 2: Crie um Ponto de Montagem</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Escolha um diretório onde você quer que o compartilhamento CIFS fique acessível. Crie esse diretório como ponto de montagem:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-4">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mkdir -p /mnt/path_to_be_shared</code></pre>
+            </div>
+            <p class="article-p leading-relaxed">
+              <strong style="color: var(--color-text);">Nota:</strong> Certifique-se de que esse diretório esteja vazio, pois montar um sistema de arquivos sobre um diretório existente tornará o conteúdo original desse diretório temporariamente inacessível.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Passo 3: Monte o Compartilhamento CIFS</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Use o comando a seguir para montar o compartilhamento do Windows:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mount -t cifs //WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared -o username=WINDOWS_USER,password=WINDOWS_PASSWORD</code></pre>
+            </div>
+            <ul class="space-y-3 mb-4">
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">O primeiro argumento (<code>//WINDOWS_SERVER_IP/SharedFolder</code>) é o caminho da pasta compartilhada do Windows.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">O segundo argumento (<code>/mnt/path_to_be_shared</code>) é o ponto de montagem.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">A opção <code>-t</code> especifica o tipo de sistema de arquivos — aqui, <code>cifs</code>.</span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p">A opção <code>-o</code> permite uma lista de opções de montagem, neste caso especificando o usuário e a senha para autenticação no servidor Windows.</span>
+              </li>
+            </ul>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Passo 4: Verifique a Montagem</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Para confirmar que o compartilhamento CIFS foi montado com sucesso, execute:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-4">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>df -h | grep windows_share</code></pre>
+            </div>
+            <p class="article-p leading-relaxed">
+              Este comando lista os sistemas de arquivos montados, filtrando a saída pelas entradas relacionadas ao compartilhamento do Windows.
+            </p>
+
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Passo 5: Desmonte o Compartilhamento</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Quando você não precisar mais acessar o diretório montado, desmonte-o com:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo umount /mnt/path_to_be_shared</code></pre>
+            </div>
+          </section>
+
+          <!-- Credentials file -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Criando a Montagem com um Arquivo de Credenciais 🔐</h2>
+            <p class="article-p leading-relaxed mb-8">
+              Por segurança, não é recomendado colocar as credenciais diretamente no comando. Em vez disso, crie um arquivo de credenciais e defina as permissões apropriadas:
+            </p>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Passo 1 — crie o arquivo de credenciais</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo nano /etc/credentials</code></pre>
+            </div>
+
+            <p class="article-p leading-relaxed mb-3">Dentro do arquivo, adicione suas credenciais do Windows:</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>username=WINDOWS_USER
+password=WINDOWS_PASSWORD</code></pre>
+            </div>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Passo 2 — restrinja o acesso ao arquivo</p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo chmod 600 /etc/credentials</code></pre>
+            </div>
+
+            <p class="article-annotation font-mono text-sm mb-3" style="color: var(--color-accent);">// Passo 3 — monte usando o arquivo de credenciais</p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>sudo mount -t cifs //WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared -o credentials=/etc/credentials</code></pre>
+            </div>
+          </section>
+
+          <!-- fstab -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">O que é o fstab? ⚙️</h2>
+            <p class="article-p leading-relaxed mb-6">
+              O arquivo fstab (localizado em <code>/etc/fstab</code>) é um arquivo de configuração que especifica quais sistemas de arquivos devem ser montados na inicialização. Ao adicionar a montagem CIFS ao fstab, você automatiza o processo para garantir que o compartilhamento do Windows esteja disponível sempre que o sistema iniciar. Aqui está um exemplo de entrada:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>//WINDOWS_SERVER_IP/SharedFolder /mnt/path_to_be_shared cifs credentials=/etc/credentials 0 0</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-4">Cada campo especifica o seguinte:</p>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Sistema de arquivos:</span> <code>//WINDOWS_SERVER_IP/SharedFolder</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Ponto de montagem:</span> <code>/mnt/path_to_be_shared</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Tipo de sistema de arquivos:</span> <code>cifs</code></span>
+              </li>
+              <li class="flex gap-3">
+                <span style="color: var(--color-accent);">▸</span>
+                <span class="article-p"><span class="font-semibold" style="color: var(--color-text);">Opções:</span> <code>credentials=/etc/credentials</code></span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Conclusion -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Conclusão 🏁</h2>
+            <p class="article-p leading-relaxed">
+              Montar um diretório do Windows no Linux usando CIFS é uma forma simples e poderosa de facilitar o compartilhamento de arquivos entre plataformas. Entendendo como a montagem funciona no Linux e usando ferramentas como o CIFS, você integra os compartilhamentos do Windows a um ambiente Linux sem dificuldades. Essa abordagem é valiosa para empresas e pessoas que precisam de acesso regular e seguro a arquivos em sistemas operacionais diversos.
+            </p>
+          </section>
+
+        </div>
+        ) : (
         <div class="article-body space-y-14" style="margin-top: 3rem;">
 
           <!-- Introduction -->
@@ -496,13 +925,14 @@ password=WINDOWS_PASSWORD</code></pre>
           </section>
 
         </div>
+        )
       ) : (
         <div class="article-placeholder rounded-xl border p-8">
           <p class="article-annotation font-mono text-sm mb-6">
             // post content placeholder
           </p>
           <p class="article-p leading-relaxed">
-            {post.excerpt}
+            {loc(post.excerpt, lang)}
           </p>
           <p class="article-p mt-6 leading-relaxed">
             This is a placeholder blog post page. Replace this content with your actual article.
@@ -527,12 +957,6 @@ password=WINDOWS_PASSWORD</code></pre>
   }
 
   /* Back link */
-  .article-notice {
-    color: var(--color-muted);
-    border-left: 2px solid var(--color-accent);
-    padding-left: 0.75rem;
-  }
-
   .back-link {
     color: var(--color-muted);
   }

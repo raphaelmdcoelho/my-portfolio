@@ -52,7 +52,7 @@ export const projects: Project[] = [
     },
     tags: ['Angular', 'TypeScript', 'CSS', 'Supabase'],
     repoUrl: 'https://github.com/raphaelmdcoelho/pull-binder',
-    liveUrl: '',
+    liveUrl: 'https://pull-binder.pages.dev/login',
     imageUrl: '/my-portfolio/images/pull-binder-thumbnail.png',
   },
 ];
