@@ -50,9 +50,9 @@ const en = {
     screenshotOf: 'Screenshot of {title}',
     featured: 'featured',
     source: 'Source',
-    liveDemo: 'Live Demo',
+    liveDemo: 'Open',
     repoAria: 'GitHub repository for {title}',
-    liveAria: 'Live demo for {title}',
+    liveAria: 'Open {title}',
   },
 
   blog: {
@@ -143,9 +143,9 @@ const pt: typeof en = {
     screenshotOf: 'Captura de tela de {title}',
     featured: 'destaque',
     source: 'Código',
-    liveDemo: 'Demo',
+    liveDemo: 'Abrir',
     repoAria: 'Repositório no GitHub de {title}',
-    liveAria: 'Demo ao vivo de {title}',
+    liveAria: 'Abrir {title}',
   },
 
   blog: {
