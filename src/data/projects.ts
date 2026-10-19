@@ -67,7 +67,7 @@ export const projects: Project[] = [
     tags: ['React', 'TypeScript', 'Vite', 'CSS'],
     repoUrl: 'https://github.com/raphaelmdcoelho/physical',
     liveUrl: 'https://raphaelmdcoelho.github.io/physical/',
-    imageUrl: '/my-portfolio/images/physical-thumbnail.png',
+    imageUrl: '/my-portfolio/images/physcal-thumbnail.png',
   },
 ];
 
