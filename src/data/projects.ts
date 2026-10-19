@@ -55,6 +55,20 @@ export const projects: Project[] = [
     liveUrl: 'https://pull-binder.pages.dev/login',
     imageUrl: '/my-portfolio/images/pull-binder-thumbnail.png',
   },
+  {
+    id: 'physical',
+    title: 'Physcal — Body & Health Tracker',
+    description: {
+      en:
+        'Track your muscle measurements by month, follow your evolution over the year, and log blood pressure by day. An interactive anatomical map with per-muscle callouts, plus calculated insights such as BMI, BMR, lean mass and left/right symmetry. Responsive across browser, tablet and phone.',
+      pt:
+        'Acompanhe suas medidas musculares por mês, veja sua evolução ao longo do ano e registre a pressão arterial por dia. Um mapa anatômico interativo com indicadores por músculo, além de cálculos como IMC, taxa metabólica basal, massa magra e simetria esquerda/direita. Responsivo em navegador, tablet e celular.',
+    },
+    tags: ['React', 'TypeScript', 'Vite', 'CSS'],
+    repoUrl: 'https://github.com/raphaelmdcoelho/physical',
+    liveUrl: 'https://raphaelmdcoelho.github.io/physical/',
+    imageUrl: '/my-portfolio/images/physical-thumbnail.png',
+  },
 ];
 
 /** A project with its text resolved to a single language. */
