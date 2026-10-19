@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import type { Project } from '../../data/projects';
+import type { ResolvedProject } from '../../data/projects';
+import type { ui } from '../../i18n/ui';
 
 interface Props {
-  projects: Project[];
+  projects: ResolvedProject[];
+  labels: (typeof ui)['en']['projects'];
 }
+
+const fill = (template: string, title: string) => template.replace('{title}', title);
 
 const SWIPE_THRESHOLD = 60;
 
-export default function ProjectCarousel({ projects }: Props) {
+export default function ProjectCarousel({ projects, labels }: Props) {
   const [index, setIndex] = useState(0);
   const count = projects.length;
 
@@ -27,7 +31,7 @@ export default function ProjectCarousel({ projects }: Props) {
       className="carousel"
       role="region"
       aria-roledescription="carousel"
-      aria-label="Projects"
+      aria-label={labels.carouselLabel}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'ArrowLeft') go(index - 1);
@@ -75,11 +79,11 @@ export default function ProjectCarousel({ projects }: Props) {
               <div className="carousel-img-wrap">
                 <img
                   src={project.imageUrl}
-                  alt={`Screenshot of ${project.title}`}
+                  alt={fill(labels.screenshotOf, project.title)}
                   draggable={false}
                   loading="lazy"
                 />
-                {project.featured && <span className="carousel-badge font-mono">featured</span>}
+                {project.featured && <span className="carousel-badge font-mono">{labels.featured}</span>}
               </div>
 
               <div className="carousel-content">
@@ -97,9 +101,9 @@ export default function ProjectCarousel({ projects }: Props) {
                       target="_blank"
                       rel="noopener noreferrer"
                       tabIndex={active ? 0 : -1}
-                      aria-label={`GitHub repository for ${project.title}`}
+                      aria-label={fill(labels.repoAria, project.title)}
                     >
-                      Source ↗
+                      {labels.source} ↗
                     </a>
                   )}
                   {project.liveUrl && (
@@ -108,9 +112,9 @@ export default function ProjectCarousel({ projects }: Props) {
                       target="_blank"
                       rel="noopener noreferrer"
                       tabIndex={active ? 0 : -1}
-                      aria-label={`Live demo for ${project.title}`}
+                      aria-label={fill(labels.liveAria, project.title)}
                     >
-                      Live Demo ↗
+                      {labels.liveDemo} ↗
                     </a>
                   )}
                 </div>
@@ -121,21 +125,21 @@ export default function ProjectCarousel({ projects }: Props) {
       </div>
 
       <div className="carousel-controls">
-        <button type="button" onClick={() => go(index - 1)} aria-label="Previous project">←</button>
-        <div className="carousel-dots" role="tablist" aria-label="Choose project">
+        <button type="button" onClick={() => go(index - 1)} aria-label={labels.previous}>←</button>
+        <div className="carousel-dots" role="tablist" aria-label={labels.choose}>
           {projects.map((p, i) => (
             <button
               key={p.id}
               type="button"
               role="tab"
               aria-selected={i === index}
-              aria-label={`Show ${p.title}`}
+              aria-label={fill(labels.show, p.title)}
               className={i === index ? 'dot active' : 'dot'}
               onClick={() => go(i)}
             />
           ))}
         </div>
-        <button type="button" onClick={() => go(index + 1)} aria-label="Next project">→</button>
+        <button type="button" onClick={() => go(index + 1)} aria-label={labels.next}>→</button>
       </div>
 
       <style>{`

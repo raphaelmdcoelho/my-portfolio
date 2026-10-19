@@ -1,3 +1,5 @@
+import type { Localized } from '../i18n/utils';
+
 export interface SocialLinks {
   github: string;
   linkedin: string;
@@ -12,9 +14,9 @@ export interface Skill {
 
 export interface SiteConfig {
   name: string;
-  title: string;
-  tagline: string;
-  bio: string;
+  title: Localized;
+  tagline: Localized;
+  bio: Localized;
   avatar: string;
   social: SocialLinks;
   skills: Skill[];
@@ -22,11 +24,19 @@ export interface SiteConfig {
 
 export const config: SiteConfig = {
   name: 'Raphael Moreira Damasceno Coelho',
-  title: 'Software Developer',
-  tagline: 'Building digital experiences from idea to deployment.',
-  bio: `I'm a software developer with a passion for building reliable, well-crafted applications.
+  title: { en: 'Software Developer', pt: 'Desenvolvedor de Software' },
+  tagline: {
+    en: 'Building digital experiences from idea to deployment.',
+    pt: 'Construindo experiências digitais da ideia ao deploy.',
+  },
+  bio: {
+    en: `I'm a software developer with a passion for building reliable, well-crafted applications.
 I take pride in my strong teamwork skills — I believe the best software is built collaboratively, through clear communication, shared ownership, and mutual respect.
 I enjoy tackling new challenges, learning continuously, and contributing to teams where everyone grows together.`,
+    pt: `Sou um desenvolvedor de software apaixonado por construir aplicações confiáveis e bem elaboradas.
+Tenho orgulho da minha capacidade de trabalhar em equipe — acredito que o melhor software é construído de forma colaborativa, com comunicação clara, responsabilidade compartilhada e respeito mútuo.
+Gosto de encarar novos desafios, aprender continuamente e contribuir com times em que todos crescem juntos.`,
+  },
   avatar: '/my-portfolio/images/avatar.jpeg',
   social: {
     github: 'https://github.com/raphaelmdcoelho',

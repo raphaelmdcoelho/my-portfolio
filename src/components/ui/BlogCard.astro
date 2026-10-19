@@ -1,17 +1,16 @@
 ---
 import type { BlogPost } from '../../data/blog';
+import { formatDate, getLang, loc, localePath, useTranslations } from '../../i18n/utils';
 
 interface Props {
   post: BlogPost;
 }
 const { post } = Astro.props;
 
-const [year, month, day] = post.date.split('-').map(Number);
-const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const formattedDate = formatDate(post.date, lang);
+const title = loc(post.title, lang);
 ---
 
 <article class="blog-card relative rounded-xl border flex flex-col transition-all duration-300">
@@ -31,19 +30,19 @@ const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US',
     </div>
 
     <h3 class="blog-title font-mono font-bold text-base mb-3 leading-snug">
-      {post.title}
+      {title}
     </h3>
 
     <p class="blog-excerpt text-sm leading-relaxed flex-1 mb-5">
-      {post.excerpt}
+      {loc(post.excerpt, lang)}
     </p>
 
     <a
-      href={post.url}
+      href={localePath(lang, `blog/${post.id}/`)}
       class="blog-read-link font-mono text-sm flex items-center gap-1 transition-colors duration-200 mt-auto w-fit"
-      aria-label={`Read more: ${post.title}`}
+      aria-label={t.blog.readMoreAria(title)}
     >
-      Read more
+      {t.blog.readMore}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <line x1="5" y1="12" x2="19" y2="12" />
         <polyline points="12 5 19 12 12 19" />

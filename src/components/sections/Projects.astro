@@ -1,15 +1,20 @@
 ---
 import { projects } from '../../data/projects';
+import { getLang, loc, useTranslations } from '../../i18n/utils';
 import ProjectCarousel from '../ui/ProjectCarousel';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const resolved = projects.map((p) => ({ ...p, description: loc(p.description, lang) }));
 ---
 
-<section id="projects" style="padding-top: 6rem; padding-bottom: 6rem;" aria-label="Projects">
+<section id="projects" style="padding-top: 6rem; padding-bottom: 6rem;" aria-label={t.projects.aria}>
   <div class="content-wrap">
-    <h2 class="section-title reveal reveal-left"><span>#</span> Projects</h2>
+    <h2 class="section-title reveal reveal-left"><span>#</span> {t.projects.title}</h2>
     <div class="section-divider reveal"></div>
 
     <div class="reveal">
-      <ProjectCarousel client:visible projects={projects} />
+      <ProjectCarousel client:visible projects={resolved} labels={t.projects} />
     </div>
   </div>
 </section>

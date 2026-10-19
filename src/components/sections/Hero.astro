@@ -1,11 +1,15 @@
 ---
 import { config } from '../../data/config';
+import { getLang, loc, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
 <section
   id="hero"
   class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg"
-  aria-label="Hero section"
+  aria-label={t.hero.aria}
 >
   <!-- Radial fade overlay -->
   <div class="hero-fade absolute inset-0 pointer-events-none" aria-hidden="true"></div>
@@ -15,7 +19,7 @@ import { config } from '../../data/config';
 
   <div class="hero-content relative z-10 text-center px-6 max-w-3xl mx-auto">
     <p class="hero-greeting font-mono text-sm mb-4 tracking-widest uppercase">
-      &gt; Hello, world
+      {t.hero.greeting}
     </p>
 
     <h1 class="hero-name font-mono font-bold text-5xl md:text-7xl mb-4 leading-tight">
@@ -23,11 +27,11 @@ import { config } from '../../data/config';
     </h1>
 
     <h2 class="hero-title font-mono text-xl md:text-2xl mb-6">
-      <span class="text-accent">//</span> {config.title}
+      <span class="text-accent">//</span> {loc(config.title, lang)}
     </h2>
 
     <p class="hero-tagline text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-      {config.tagline}
+      {loc(config.tagline, lang)}
     </p>
 
     <div class="hero-cta flex flex-col sm:flex-row gap-4 justify-center">
@@ -35,13 +39,13 @@ import { config } from '../../data/config';
         href="#projects"
         class="hero-btn-primary font-mono text-sm rounded border transition-all duration-200"
       >
-        View Projects
+        {t.hero.viewProjects}
       </a>
       <a
         href="#contact"
         class="hero-btn-secondary font-mono text-sm rounded border transition-all duration-200"
       >
-        Contact Me
+        {t.hero.contactMe}
       </a>
     </div>
 
@@ -49,7 +53,7 @@ import { config } from '../../data/config';
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce z-10" aria-hidden="true">
-    <span class="hero-scroll font-mono text-xs">scroll</span>
+    <span class="hero-scroll font-mono text-xs">{t.hero.scroll}</span>
     <svg class="text-accent" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="6 9 12 15 18 9" />
     </svg>

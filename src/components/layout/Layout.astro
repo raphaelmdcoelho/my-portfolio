@@ -3,17 +3,23 @@ import '../../styles/global.css';
 import Navbar from './Navbar.astro';
 import Footer from './Footer.astro';
 import { config } from '../../data/config';
+import { getLang, loc, useTranslations } from '../../i18n/utils';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = `${config.name} — Portfolio`, description = `Personal portfolio of ${config.name}, ${config.title}.` } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const {
+  title = `${config.name} — ${t.siteTitle}`,
+  description = t.siteDescription(config.name, loc(config.title, lang)),
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

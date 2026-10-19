@@ -1,42 +1,42 @@
 ---
-import Layout from '../../components/layout/Layout.astro';
-import { blogPosts } from '../../data/blog';
+import Layout from '../../../components/layout/Layout.astro';
+import { blogPosts } from '../../../data/blog';
+import { formatDate, getLang, loc, localePath, useTranslations } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
-  return blogPosts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return [undefined, 'pt'].flatMap((lang) =>
+    blogPosts.map((post) => ({
+      params: { lang, slug: post.id },
+      props: { post },
+    }))
+  );
 }
 
 const { post } = Astro.props;
-
-const [year, month, day] = post.date.split('-').map(Number);
-const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const title = loc(post.title, lang);
+const formattedDate = formatDate(post.date, lang);
 
 const isStreamPost = post.id === 'how-stream-works-in-csharp';
 const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
 ---
 
-<Layout title={`${post.title} — Raphael Coelho`} description={post.excerpt}>
+<Layout title={`${title} — Raphael Coelho`} description={loc(post.excerpt, lang)}>
   <div class="article-page w-full flex justify-center px-6">
     <article class="article-wrap w-full">
 
       <!-- Back link -->
       <a
-        href="/my-portfolio/#blog"
+        href={`${localePath(lang)}#blog`}
         class="back-link inline-flex items-center gap-2 font-mono text-sm mb-10 transition-colors duration-200"
-        aria-label="Back to blog list"
+        aria-label={t.blog.backToBlogAria}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="19" y1="12" x2="5" y2="12" />
           <polyline points="12 19 5 12 12 5" />
         </svg>
-        Back to blog
+        {t.blog.backToBlog}
       </a>
 
       <!-- Tags -->
@@ -46,7 +46,7 @@ const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
 
       <!-- Title -->
       <h1 class="article-title font-mono font-bold text-3xl md:text-4xl mb-6 leading-tight">
-        {post.title} 🤔
+        {title} 🤔
       </h1>
 
       <!-- Author byline -->
@@ -65,6 +65,8 @@ const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
           </time>
         </div>
       </div>
+
+      {lang !== 'en' && <p class="article-notice font-mono text-sm mb-8">{t.blog.englishOnly}</p>}
 
       {isStreamPost ? (
         <div class="article-body space-y-14">
@@ -525,6 +527,12 @@ password=WINDOWS_PASSWORD</code></pre>
   }
 
   /* Back link */
+  .article-notice {
+    color: var(--color-muted);
+    border-left: 2px solid var(--color-accent);
+    padding-left: 0.75rem;
+  }
+
   .back-link {
     color: var(--color-muted);
   }
