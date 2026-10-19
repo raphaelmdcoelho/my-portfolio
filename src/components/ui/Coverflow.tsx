@@ -95,7 +95,7 @@ export default function Coverflow({
       </div>
 
       <div className="carousel-controls">
-        <button type="button" onClick={() => go(index - 1)} aria-label={labels.previous}>←</button>
+        <button type="button" onClick={() => go(index - 1)} aria-label={labels.previous}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg></button>
         <div className="carousel-dots" role="tablist" aria-label={labels.choose}>
           {itemLabels.map((itemLabel, i) => (
             <button
@@ -109,7 +109,7 @@ export default function Coverflow({
             />
           ))}
         </div>
-        <button type="button" onClick={() => go(index + 1)} aria-label={labels.next}>→</button>
+        <button type="button" onClick={() => go(index + 1)} aria-label={labels.next}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg></button>
       </div>
 
       <style>{`
@@ -141,6 +141,7 @@ export default function Coverflow({
         }
         .carousel-controls > button {
           width: 2.5rem; height: 2.5rem; border-radius: 9999px;
+          display: grid; place-items: center; padding: 0; line-height: 1;
           background: var(--color-surface); color: var(--color-accent);
           border: 1px solid var(--color-border); cursor: pointer;
           transition: border-color 0.2s, box-shadow 0.2s;
