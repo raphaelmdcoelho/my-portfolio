@@ -31,4 +31,14 @@ export const projects: Project[] = [
     liveUrl: 'https://raphaelmdcoelho.github.io/grass-ds/',
     imageUrl: '/my-portfolio/images/grass-thumbnail.png',
   },
+  {
+    id: 'pull-binder',
+    title: 'pull-binder — Pokémon TCG Manager',
+    description:
+      'A web app to manage my Pokémon Trading Card Game collection. Keep track of the cards I own and organize them in a digital binder.',
+    tags: ['Angular', 'TypeScript', 'CSS', 'Supabase'],
+    repoUrl: 'https://github.com/raphaelmdcoelho/pull-binder',
+    liveUrl: '',
+    imageUrl: '/my-portfolio/images/pull-binder-thumbnail.png',
+  },
 ];
