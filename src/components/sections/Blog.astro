@@ -1,10 +1,25 @@
 ---
 import { blogPosts } from '../../data/blog';
-import BlogCard from '../ui/BlogCard.astro';
-import { getLang, useTranslations } from '../../i18n/utils';
+import BlogCarousel from '../ui/BlogCarousel';
+import { formatDate, getLang, loc, localePath, useTranslations } from '../../i18n/utils';
+
+const MAX_POSTS = 7;
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+const posts = [...blogPosts]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .slice(0, MAX_POSTS)
+  .map((post) => ({
+    id: post.id,
+    title: loc(post.title, lang),
+    excerpt: loc(post.excerpt, lang),
+    date: post.date,
+    formattedDate: formatDate(post.date, lang),
+    href: localePath(lang, `blog/${post.id}/`),
+    tags: post.tags,
+  }));
 ---
 
 <section
@@ -16,8 +31,8 @@ const t = useTranslations(lang);
     <h2 class="section-title reveal reveal-left"><span>#</span> {t.blog.title}</h2>
     <div class="section-divider reveal"></div>
 
-    <div class="grid sm:grid-cols-2 gap-6 reveal-stagger">
-      {blogPosts.map((post) => <BlogCard post={post} />)}
+    <div class="reveal">
+      <BlogCarousel client:visible posts={posts} labels={t.blog} />
     </div>
   </div>
 </section>
