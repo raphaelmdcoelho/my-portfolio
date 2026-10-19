@@ -1,6 +1,6 @@
 ---
 import { projects } from '../../data/projects';
-import ProjectCard from '../ui/ProjectCard.astro';
+import ProjectCarousel from '../ui/ProjectCarousel';
 ---
 
 <section id="projects" style="padding-top: 6rem; padding-bottom: 6rem;" aria-label="Projects">
@@ -8,8 +8,8 @@ import ProjectCard from '../ui/ProjectCard.astro';
     <h2 class="section-title reveal reveal-left"><span>#</span> Projects</h2>
     <div class="section-divider reveal"></div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 reveal-stagger">
-      {projects.map((project) => <ProjectCard project={project} />)}
+    <div class="reveal">
+      <ProjectCarousel client:visible projects={projects} />
     </div>
   </div>
 </section>
