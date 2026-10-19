@@ -155,6 +155,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
         .carousel-card {
           position: absolute;
           top: 1rem;
+          bottom: 1rem;
           width: min(380px, 78vw);
           display: flex;
           flex-direction: column;
@@ -185,7 +186,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
           font-size: 0.75rem; font-weight: 700;
           padding: 0.25rem 0.5rem; border-radius: 0.25rem;
         }
-        .carousel-content { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .carousel-content { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
         .carousel-content h3 { color: var(--color-text); font-size: 1rem; font-weight: 700; }
         .carousel-content p { color: var(--color-muted); font-size: 0.875rem; line-height: 1.6; }
         .carousel-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -194,7 +195,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
           border: 1px solid var(--color-border);
           font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.25rem;
         }
-        .carousel-links { display: flex; gap: 1rem; font-size: 0.75rem; }
+        .carousel-links { margin-top: auto; display: flex; gap: 1rem; font-size: 0.75rem; }
         .carousel-links a { color: var(--color-muted); text-decoration: none; transition: color 0.2s; }
         .carousel-links a:hover { color: var(--color-accent); }
         .carousel-controls {
