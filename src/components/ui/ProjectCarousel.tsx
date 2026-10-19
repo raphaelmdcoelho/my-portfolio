@@ -71,6 +71,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
         }}
       />
       <style>{`
+        .carousel-card:has(.project-img-wrap) { bottom: 1rem; }
         .project-img-wrap {
           position: relative;
           height: 220px;
@@ -91,6 +92,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
           font-size: 0.75rem; font-weight: 700;
           padding: 0.25rem 0.5rem; border-radius: 0.25rem;
         }
+        .carousel-card:has(.project-img-wrap) .card-content { flex: 1; }
         .card-content { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
         .card-content h3 { color: var(--color-text); font-size: 1rem; font-weight: 700; }
         .card-content p { color: var(--color-muted); font-size: 0.875rem; line-height: 1.6; }
@@ -100,7 +102,7 @@ export default function ProjectCarousel({ projects, labels }: Props) {
           border: 1px solid var(--color-border);
           font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.25rem;
         }
-        .card-links { display: flex; gap: 1rem; font-size: 0.75rem; }
+        .card-links { margin-top: auto; display: flex; gap: 1rem; font-size: 0.75rem; }
         .card-links a { color: var(--color-muted); text-decoration: none; transition: color 0.2s; }
         .card-links a:hover { color: var(--color-accent); }
       `}</style>
