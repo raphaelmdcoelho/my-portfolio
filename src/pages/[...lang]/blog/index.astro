@@ -1,0 +1,166 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { blogPosts } from '../../../data/blog';
+import { formatDate, getLang, loc, localePath, useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return [{ params: { lang: undefined } }, { params: { lang: 'pt' } }];
+}
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+const posts = [...blogPosts]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((post) => ({
+    id: post.id,
+    title: loc(post.title, lang),
+    excerpt: loc(post.excerpt, lang),
+    date: post.date,
+    formattedDate: formatDate(post.date, lang),
+    href: localePath(lang, `blog/${post.id}/`),
+    tags: post.tags ?? [],
+  }));
+
+const [featured, ...rest] = posts;
+const tags = [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeCompare(b));
+---
+
+<Layout title={t.blog.pageTitle} description={t.blog.pageIntro}>
+  <div class="blog-page content-wrap">
+    <header class="blog-head">
+      <h1 class="section-title"><span>#</span> {t.blog.title}</h1>
+      <div class="section-divider"></div>
+      <p class="blog-intro">{t.blog.pageIntro}</p>
+    </header>
+
+    {
+      tags.length > 0 && (
+        <div class="filters" role="group" aria-label={t.blog.filterLabel}>
+          <button type="button" class="chip font-mono active" data-tag="" aria-pressed="true">
+            {t.blog.all} <span class="chip-count">{posts.length}</span>
+          </button>
+          {tags.map((tag) => (
+            <button type="button" class="chip font-mono" data-tag={tag} aria-pressed="false">
+              {tag} <span class="chip-count">{posts.filter((p) => p.tags.includes(tag)).length}</span>
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <p class="count font-mono" id="post-count" aria-live="polite" data-one={t.blog.postCount(1)} data-many={t.blog.postCount(2)}>
+      {t.blog.postCount(posts.length)}
+    </p>
+
+    <ul class="post-list">
+      {
+        [featured, ...rest].filter(Boolean).map((post, i) => (
+          <li class:list={['post', { featured: i === 0 }]} data-tags={post.tags.join('|')}>
+            <a class="post-link" href={post.href} aria-label={t.blog.readMoreAria.replace('{title}', post.title)}>
+              <div class="post-meta">
+                {i === 0 && <span class="badge font-mono">{t.blog.latest}</span>}
+                <time datetime={post.date} class="post-date font-mono">{post.formattedDate}</time>
+                {post.tags.map((tag) => <span class="tag font-mono">{tag}</span>)}
+              </div>
+              <h2 class="post-title font-mono">{post.title}</h2>
+              <p class="post-excerpt">{post.excerpt}</p>
+              <span class="post-cta font-mono">
+                {t.blog.readArticle} <span aria-hidden="true">→</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>
+
+<style>
+  .blog-page { padding-top: 8rem; padding-bottom: 6rem; }
+  .blog-head { margin-bottom: 2.5rem; }
+  .blog-intro { color: var(--color-muted); max-width: 40rem; line-height: 1.7; margin-top: 1.25rem; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .chip {
+    font-size: 0.78rem; padding: 0.35rem 0.85rem; border-radius: 9999px; cursor: pointer;
+    color: var(--color-muted); background: transparent; border: 1px solid var(--color-border);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .chip:hover { color: var(--color-text); border-color: var(--color-accent); }
+  .chip.active { color: var(--color-bg); background: var(--color-accent); border-color: var(--color-accent); font-weight: 700; }
+  .chip-count { opacity: 0.6; margin-left: 0.25rem; }
+  .count { color: var(--color-muted); font-size: 0.75rem; margin-bottom: 1.5rem; }
+
+  .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(2, 1fr); }
+  .post[hidden] { display: none; }
+  .post.featured,
+  .post:last-child:nth-child(even) { grid-column: 1 / -1; }
+  .post-link {
+    position: relative; display: flex; flex-direction: column; gap: 0.85rem; height: 100%;
+    padding: 1.75rem; border-radius: 1rem; text-decoration: none; overflow: hidden;
+    background: linear-gradient(160deg, var(--color-surface-2), var(--color-surface));
+    border: 1px solid var(--color-border);
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .post-link:hover, .post-link:focus-visible {
+    border-color: var(--color-accent); transform: translateY(-4px);
+    box-shadow: 0 0 30px var(--color-accent-dim), 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+  .featured .post-link { padding: 2.25rem; }
+  .featured .post-title { font-size: 1.6rem; }
+  .featured .post-excerpt { font-size: 1rem; max-width: 46rem; }
+
+  .post-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.75rem; }
+  .badge {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--color-bg); background: var(--color-accent); padding: 0.2rem 0.65rem; border-radius: 9999px;
+  }
+  .post-date { color: var(--color-accent); font-size: 0.75rem; }
+  .tag {
+    background: var(--color-surface-2); color: var(--color-accent); border: 1px solid var(--color-border);
+    font-size: 0.72rem; padding: 0.125rem 0.5rem; border-radius: 0.25rem;
+  }
+  .post-title { color: var(--color-text); font-size: 1.15rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+  .post-excerpt { color: var(--color-muted); font-size: 0.9rem; line-height: 1.7; }
+  .post-cta { margin-top: auto; padding-top: 0.5rem; color: var(--color-accent); font-size: 0.85rem; }
+  .post-link:hover .post-cta span { display: inline-block; transform: translateX(4px); transition: transform 0.2s; }
+
+  @media (max-width: 760px) {
+    .post-list { grid-template-columns: 1fr; }
+    .blog-page { padding-top: 6.5rem; }
+    .featured .post-link { padding: 1.5rem; }
+    .featured .post-title { font-size: 1.3rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .post-link, .post-link:hover { transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const items = document.querySelectorAll<HTMLElement>('.post');
+  const count = document.getElementById('post-count');
+  const label = (n: number) => (n === 1 ? count?.dataset.one : count?.dataset.many?.replace('2', String(n))) ?? '';
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const tag = chip.dataset.tag ?? '';
+      let shown = 0;
+      chips.forEach((c) => {
+        const on = c === chip;
+        c.classList.toggle('active', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
+      items.forEach((item) => {
+        const match = !tag || (item.dataset.tags ?? '').split('|').includes(tag);
+        item.hidden = !match;
+        if (match) shown++;
+      });
+      // The first visible post takes the featured layout.
+      items.forEach((item) => item.classList.remove('featured'));
+      [...items].find((i) => !i.hidden)?.classList.add('featured');
+      if (count) count.textContent = label(shown);
+    });
+  });
+</script>

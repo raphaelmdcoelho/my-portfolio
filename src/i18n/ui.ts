@@ -67,6 +67,15 @@ const en = {
     showPost: 'Show {title}',
     backToBlog: 'Back to blog',
     backToBlogAria: 'Back to blog list',
+    viewAll: 'View all posts',
+    pageTitle: 'Blog — Raphael Coelho',
+    pageIntro: 'Notes, guides and write-ups on software development, DevOps and the things I learn along the way.',
+    latest: 'Latest',
+    allPosts: 'All posts',
+    filterLabel: 'Filter posts by topic',
+    all: 'All',
+    postCount: (n: number) => `${n} ${n === 1 ? 'post' : 'posts'}`,
+    readArticle: 'Read article',
   },
 
   contact: {
@@ -151,6 +160,15 @@ const pt: typeof en = {
     showPost: 'Mostrar {title}',
     backToBlog: 'Voltar ao blog',
     backToBlogAria: 'Voltar à lista de artigos',
+    viewAll: 'Ver todos os artigos',
+    pageTitle: 'Blog — Raphael Coelho',
+    pageIntro: 'Notas, guias e textos sobre desenvolvimento de software, DevOps e o que vou aprendendo pelo caminho.',
+    latest: 'Mais recente',
+    allPosts: 'Todos os artigos',
+    filterLabel: 'Filtrar artigos por assunto',
+    all: 'Todos',
+    postCount: (n: number) => `${n} ${n === 1 ? 'artigo' : 'artigos'}`,
+    readArticle: 'Ler artigo',
   },
 
   contact: {
