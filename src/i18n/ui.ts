@@ -62,7 +62,6 @@ const en = {
     readMoreAria: (title: string) => `Read more: ${title}`,
     backToBlog: 'Back to blog',
     backToBlogAria: 'Back to blog list',
-    englishOnly: 'This article is only available in English.',
   },
 
   contact: {
@@ -142,7 +141,6 @@ const pt: typeof en = {
     readMoreAria: (title) => `Ler mais: ${title}`,
     backToBlog: 'Voltar ao blog',
     backToBlogAria: 'Voltar à lista de artigos',
-    englishOnly: 'Este artigo está disponível apenas em inglês.',
   },
 
   contact: {
