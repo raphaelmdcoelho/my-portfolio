@@ -20,7 +20,7 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
 
 <header
   id="navbar"
-  class="navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  class="navbar fixed top-0 left-0 right-0 z-50"
 >
   <div class="navbar-inner content-wrap flex items-center justify-between">
     <!-- Logo -->
@@ -103,6 +103,9 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
 <style>
   .navbar {
     background: transparent;
+    /* Reserve the border up front, so it never animates from currentColor (white flash). */
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.3s, border-color 0.3s;
   }
 
   .navbar-inner {
@@ -149,7 +152,7 @@ const switchHref = localePath(otherLang, stripLocale(Astro.url.pathname));
   #navbar.scrolled {
     background: rgba(10, 10, 10, 0.9) !important;
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom-color: var(--color-border);
   }
 </style>
 
