@@ -10,6 +10,13 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: 'strategies-for-structured-prompts',
+    title: {"en": "Strategies for Structured Prompts", "pt": "Estratégias para Prompts Estruturados"},
+    date: '2026-10-20',
+    excerpt: {"en": "A good prompt is less like a wish and more like a well-written interface. Learn how to organize instructions, examples, and output contracts so your LLM spends less time guessing what you meant.", "pt": "Um bom prompt se parece menos com um desejo e mais com uma interface bem definida. Aprenda a organizar instruções, exemplos e contratos de saída para que seu LLM passe menos tempo adivinhando o que você quis dizer."},
+    tags: ['AI', 'Prompt Engineering', 'LLM'],
+  },
+  {
     id: 'how-stream-works-in-csharp',
     title: {
       en: 'How does Stream work in C#?',
