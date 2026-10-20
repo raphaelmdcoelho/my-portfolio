@@ -9,6 +9,7 @@ const en = {
 
   nav: {
     about: 'About',
+    experience: 'Experience',
     skills: 'Skills',
     projects: 'Projects',
     blog: 'Blog',
@@ -31,6 +32,13 @@ const en = {
     aria: 'About me',
     title: 'About Me',
     portraitOf: (name: string) => `Portrait of ${name}`,
+  },
+
+  experience: {
+    aria: 'Work experience',
+    title: 'Experience',
+    subtitle: 'Companies and organizations I have worked with.',
+    visitAria: 'Visit the {name} website',
   },
 
   skills: {
@@ -102,6 +110,7 @@ const pt: typeof en = {
 
   nav: {
     about: 'Sobre',
+    experience: 'Experiência',
     skills: 'Habilidades',
     projects: 'Projetos',
     blog: 'Blog',
@@ -124,6 +133,13 @@ const pt: typeof en = {
     aria: 'Sobre mim',
     title: 'Sobre Mim',
     portraitOf: (name) => `Retrato de ${name}`,
+  },
+
+  experience: {
+    aria: 'Experiência profissional',
+    title: 'Experiência',
+    subtitle: 'Empresas e órgãos com os quais já trabalhei.',
+    visitAria: 'Visitar o site da {name}',
   },
 
   skills: {
