@@ -1,0 +1,84 @@
+---
+import { companies } from '../../data/experience';
+import { getLang, useTranslations } from '../../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section id="experience" class="experience" aria-label={t.experience.aria}>
+  <div class="content-wrap">
+    <h2 class="section-title reveal reveal-left"><span>#</span> {t.experience.title}</h2>
+    <div class="section-divider reveal"></div>
+    <p class="experience-subtitle reveal">{t.experience.subtitle}</p>
+
+    <ul class="company-grid reveal-stagger">
+      {
+        companies.map((company) => (
+          <li class="company">
+            <a
+              class="company-card"
+              href={company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t.experience.visitAria.replace('{name}', company.name)}
+            >
+              <div class="company-logo">
+                <img src={company.logo} alt={company.name} loading="lazy" draggable="false" />
+              </div>
+              <div class="company-info">
+                <span class="company-name font-mono">{company.name}</span>
+                <span class="company-url font-mono">
+                  {company.displayUrl} <span aria-hidden="true">↗</span>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .experience { padding-top: 6rem; padding-bottom: 6rem; }
+  .experience-subtitle { color: var(--color-muted); max-width: 36rem; line-height: 1.7; margin-bottom: 2.5rem; }
+
+  .company-grid {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem;
+  }
+  .company { flex: 0 0 calc((100% - 2.5rem) / 3); }
+
+  .company-card {
+    display: flex; flex-direction: column; height: 100%; overflow: hidden; text-decoration: none;
+    border-radius: 0.9rem; background: var(--color-surface); border: 1px solid var(--color-border);
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .company-card:hover, .company-card:focus-visible {
+    border-color: var(--color-accent); transform: translateY(-4px);
+    box-shadow: 0 0 28px var(--color-accent-dim), 0 16px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Light panel so logos with solid white backgrounds blend in. */
+  .company-logo {
+    display: grid; place-items: center; height: 8.5rem; padding: 1.5rem; background: #ffffff;
+  }
+  .company-logo img { max-width: 100%; max-height: 5.5rem; width: auto; height: auto; object-fit: contain; }
+
+  .company-info { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem 1.15rem 1.15rem; }
+  .company-name { color: var(--color-text); font-size: 0.9rem; font-weight: 700; }
+  .company-url { color: var(--color-accent); font-size: 0.75rem; }
+  .company-card:hover .company-url span { display: inline-block; transform: translate(2px, -2px); transition: transform 0.2s; }
+
+  @media (max-width: 760px) {
+    .company { flex-basis: calc((100% - 1.25rem) / 2); }
+    .company-logo { height: 6.5rem; padding: 1rem; }
+    .company-logo img { max-height: 4.25rem; }
+    .company-info { padding: 0.85rem 0.9rem 1rem; }
+    .company-url { overflow-wrap: anywhere; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .company-card, .company-card:hover { transform: none; transition: none; }
+  }
+</style>
