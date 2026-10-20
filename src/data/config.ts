@@ -37,7 +37,7 @@ I enjoy tackling new challenges, learning continuously, and contributing to team
 Tenho orgulho da minha capacidade de trabalhar em equipe — acredito que o melhor software é construído de forma colaborativa, com comunicação clara, responsabilidade compartilhada e respeito mútuo.
 Gosto de encarar novos desafios, aprender continuamente e contribuir com times em que todos crescem juntos.`,
   },
-  avatar: '/my-portfolio/images/avatar.jpeg',
+  avatar: '/my-portfolio/images/avatar-new.png',
   social: {
     github: 'https://github.com/raphaelmdcoelho',
     linkedin: 'https://www.linkedin.com/in/rmdcoelho/',
