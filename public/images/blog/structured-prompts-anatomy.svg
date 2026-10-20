@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="800" height="460" role="img" aria-labelledby="t d">
+  <title id="t">Anatomy of a structured prompt</title>
+  <desc id="d">A stack of labelled bricks - role, context, task, examples, constraints and output format - being assembled into a prompt by a small robot builder.</desc>
+
+  <rect width="800" height="460" rx="18" fill="#111111"/>
+  <text x="30" y="44" font-family="JetBrains Mono, monospace" font-size="15" fill="#00ffe0">// prompts are LEGO, not spaghetti</text>
+
+  <g font-family="JetBrains Mono, monospace" font-size="15">
+    <!-- bricks, from top to bottom; studs on top of each -->
+    <g>
+      <rect x="150" y="68" width="14" height="8" rx="2" fill="#00ffe0"/><rect x="200" y="68" width="14" height="8" rx="2" fill="#00ffe0"/><rect x="250" y="68" width="14" height="8" rx="2" fill="#00ffe0"/>
+      <rect x="120" y="76" width="360" height="50" rx="8" fill="#10201f" stroke="#00ffe0" stroke-width="2.5"/>
+      <text x="138" y="100" fill="#00ffe0" font-weight="700">&lt;role&gt;</text>
+      <text x="138" y="117" fill="#888" font-size="12">who the model should be</text>
+      <text x="466" y="108" text-anchor="end" fill="#888" font-size="12">"senior reviewer"</text>
+    </g>
+    <g>
+      <rect x="130" y="130" width="360" height="50" rx="8" fill="#1d1a10" stroke="#ffd166" stroke-width="2.5"/>
+      <text x="148" y="154" fill="#ffd166" font-weight="700">&lt;context&gt;</text>
+      <text x="148" y="171" fill="#888" font-size="12">what it needs to know</text>
+      <text x="476" y="162" text-anchor="end" fill="#888" font-size="12">docs, data, history</text>
+    </g>
+    <g>
+      <rect x="110" y="184" width="360" height="50" rx="8" fill="#10201f" stroke="#00ffe0" stroke-width="2.5"/>
+      <text x="128" y="208" fill="#00ffe0" font-weight="700">&lt;task&gt;</text>
+      <text x="128" y="225" fill="#888" font-size="12">the one thing to do</text>
+      <text x="456" y="216" text-anchor="end" fill="#888" font-size="12">"review this diff"</text>
+    </g>
+    <g>
+      <rect x="125" y="238" width="360" height="50" rx="8" fill="#1d1a10" stroke="#ffd166" stroke-width="2.5"/>
+      <text x="143" y="262" fill="#ffd166" font-weight="700">&lt;examples&gt;</text>
+      <text x="143" y="279" fill="#888" font-size="12">show, don't just tell</text>
+      <text x="471" y="270" text-anchor="end" fill="#888" font-size="12">2-3 good samples</text>
+    </g>
+    <g>
+      <rect x="115" y="292" width="360" height="50" rx="8" fill="#241616" stroke="#ff6b6b" stroke-width="2.5"/>
+      <text x="133" y="316" fill="#ff6b6b" font-weight="700">&lt;constraints&gt;</text>
+      <text x="133" y="333" fill="#888" font-size="12">the guard rails</text>
+      <text x="461" y="324" text-anchor="end" fill="#888" font-size="12">"no new deps"</text>
+    </g>
+    <g>
+      <rect x="130" y="346" width="360" height="50" rx="8" fill="#10201f" stroke="#00ffe0" stroke-width="2.5"/>
+      <text x="148" y="370" fill="#00ffe0" font-weight="700">&lt;output_format&gt;</text>
+      <text x="148" y="387" fill="#888" font-size="12">the shape of the answer</text>
+      <text x="476" y="378" text-anchor="end" fill="#888" font-size="12">JSON, bullets, ...</text>
+    </g>
+  </g>
+
+  <!-- builder bot with hard hat -->
+  <g transform="translate(640 300)">
+    <path d="M-40 -34 a40 36 0 0 1 80 0 z" fill="#ffd166" stroke="#c9a032" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="-46" y="-36" width="92" height="8" rx="4" fill="#ffd166" stroke="#c9a032" stroke-width="2"/>
+    <rect x="-38" y="-28" width="76" height="62" rx="14" fill="#1c1c1c" stroke="#00ffe0" stroke-width="3"/>
+    <rect x="-48" y="-4" width="10" height="22" rx="4" fill="#00ffe0"/>
+    <rect x="38" y="-4" width="10" height="22" rx="4" fill="#00ffe0"/>
+    <circle cx="-14" cy="0" r="6" fill="#e5e5e5"/><circle cx="-13" cy="1" r="2.5" fill="#111"/>
+    <circle cx="14" cy="0" r="6" fill="#e5e5e5"/><circle cx="15" cy="1" r="2.5" fill="#111"/>
+    <path d="M-14 18 q14 10 28 0" fill="none" stroke="#00ffe0" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="-28" y="40" width="56" height="52" rx="10" fill="#1c1c1c" stroke="#00ffe0" stroke-width="3"/>
+    <path d="M-28 54 q-34 -6 -52 -30" fill="none" stroke="#00ffe0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M28 54 q18 6 30 22" fill="none" stroke="#00ffe0" stroke-width="3" stroke-linecap="round"/>
+    <!-- spare brick in hand -->
+    <rect x="-112" y="-4" width="64" height="26" rx="5" fill="#1d1a10" stroke="#ffd166" stroke-width="2.5" transform="rotate(-14 -80 9)"/>
+  </g>
+  <g font-family="JetBrains Mono, monospace" font-size="13" fill="#888" text-anchor="middle">
+    <text x="640" y="416">pick the bricks you need,</text>
+    <text x="640" y="434">skip the ones you don't</text>
+  </g>
+</svg>

@@ -20,6 +20,55 @@ const formattedDate = formatDate(post.date, lang);
 
 const isStreamPost = post.id === 'how-stream-works-in-csharp';
 const isMountPost  = post.id === 'accessing-windows-directories-from-linux';
+const isPromptPost = post.id === 'strategies-for-structured-prompts';
+
+// Code samples for the structured-prompts post. Kept as plain strings so Astro doesn't parse their braces.
+const promptXmlSample = [
+  '<role>You are a senior code reviewer.</role>',
+  '',
+  '<context>',
+  '  TypeScript REST API. We value readability over cleverness.',
+  '</context>',
+  '',
+  '<diff>',
+  '  ...the pasted diff goes here...',
+  '</diff>',
+  '',
+  '<task>Review the diff and list real problems only.</task>',
+  '',
+  '<constraints>',
+  '  - No style nitpicks',
+  '  - At most 5 findings',
+  '</constraints>',
+  '',
+  '<output_format>A JSON array of objects: line, severity, message.</output_format>',
+].join('\n');
+
+const promptJsonSample = [
+  '{',
+  '  "findings": [',
+  '    {',
+  '      "line": 42,',
+  '      "severity": "high",',
+  '      "message": "Unvalidated user input reaches the SQL query."',
+  '    }',
+  '  ]',
+  '}',
+].join('\n');
+
+const promptTemplateSample = [
+  'const reviewPrompt = (diff: string, rules: string[]) => `',
+  '<role>You are a senior code reviewer.</role>',
+  '<rules>',
+  "${rules.map((rule) => `- ${rule}`).join('\\n')}",
+  '</rules>',
+  '<diff>',
+  '${diff}',
+  '</diff>',
+  '<task>Review the diff against the rules.</task>',
+  '<output_format>JSON: { "findings": [{ "line": number, "message": string }] }</output_format>',
+  '`;',
+].join('\n');
 ---
 
 <Layout title={`${title} — Raphael Coelho`} description={loc(post.excerpt, lang)}>
@@ -921,6 +970,500 @@ password=WINDOWS_PASSWORD</code></pre>
             <h2 class="font-mono font-bold text-xl mb-4" style="color: var(--color-text);">Conclusion 🏁</h2>
             <p class="article-p leading-relaxed">
               Mounting a Windows directory on Linux using CIFS is a straightforward yet powerful way to facilitate cross-platform file sharing. By understanding how mounting works in Linux and utilizing tools like CIFS, you can seamlessly integrate Windows shares into a Linux environment. This approach is invaluable for businesses and individuals who require regular, secure access to files across diverse operating systems.
+            </p>
+          </section>
+
+        </div>
+        )
+      ) : isPromptPost ? (
+        lang === 'pt' ? (
+        <div class="article-body space-y-14" style="margin-top: 3rem;">
+
+          <!-- Introduction -->
+          <section>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-hero.svg"
+                alt="Um robô confuso diante de um pedido vago ao lado de um robô feliz diante de um pedido estruturado"
+                class="article-diagram rounded-xl w-full"
+              />
+            </figure>
+            <p class="article-p leading-relaxed mb-4">
+              Todo mundo já escreveu um prompt do tipo "melhora isso aí, sabe como é". E todo mundo já recebeu de volta exatamente o que pediu: algo vago, imprevisível e cheio de emojis que ninguém solicitou. O problema raramente é o modelo — é que um pedido sem forma deixa o modelo adivinhar a forma sozinho.
+            </p>
+            <p class="article-p leading-relaxed">
+              Neste artigo vamos ver o que são prompts estruturados, quais são os principais tipos e, principalmente, estratégias práticas para escrevê-los. Spoiler: no fim das contas, é menos "mágica" e mais engenharia 🛠
+            </p>
+          </section>
+
+          <!-- What is it -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">O que é um Prompt Estruturado? 🧱</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Um <strong class="article-strong">prompt estruturado</strong> é um prompt em que cada parte da informação tem um lugar e um papel claros: quem o modelo deve ser, o que ele precisa saber, o que deve fazer, quais são os limites e em que formato a resposta deve chegar. Em vez de um parágrafo corrido, você entrega ao modelo algo mais próximo de um formulário bem desenhado.
+            </p>
+            <p class="article-p leading-relaxed mb-4">
+              Pense em um restaurante. Gritar "COMIDA! GOSTOSA! COMO DA ÚLTIMA VEZ!" para a cozinha funciona até o dia em que "gostosa" vira uma bota dentro de uma tigela. Uma comanda com prato, tamanho, restrições e ponto de servir não deixa espaço para interpretações criativas. O prompt estruturado é a comanda.
+            </p>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-restaurant.svg"
+                alt="À esquerda, um cliente grita um pedido vago e recebe uma bota na tigela; à direita, uma comanda clara resulta no prato certo"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Gritar com a cozinha vs. entregar uma comanda
+              </figcaption>
+            </figure>
+
+            <p class="article-p leading-relaxed mb-4">
+              Os ganhos são bem concretos:
+            </p>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Previsibilidade:</span> o mesmo tipo de entrada gera o mesmo tipo de saída, o que importa muito quando o resultado alimenta outro sistema.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Menos ambiguidade:</span> o modelo sabe onde terminam as instruções e onde começam os dados.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Manutenção:</span> você ajusta uma parte (só as restrições, por exemplo) sem reescrever o prompt inteiro.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Reuso e testes:</span> um prompt com "buracos" para variáveis vira um template que pode ser versionado e avaliado.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Anatomy -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">A Anatomia de um Prompt 🧩</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Prompts estruturados são montados como LEGO, não como espaguete: você escolhe os blocos de que precisa e os encaixa em uma ordem previsível. Nem todo prompt precisa de todos os blocos, mas estes são os mais comuns:
+            </p>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-anatomy.svg"
+                alt="Pilha de blocos de LEGO rotulados: papel, contexto, tarefa, exemplos, restrições e formato de saída"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Os blocos de um prompt — use só os que fizerem sentido
+              </figcaption>
+            </figure>
+
+            <ul class="space-y-3 mb-6">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Papel:</span> quem o modelo deve ser (por exemplo, "revisor de código sênior").</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Contexto:</span> o que ele precisa saber — documentos, dados, histórico, público-alvo.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Tarefa:</span> a única coisa que deve ser feita, descrita de forma direta.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Exemplos:</span> poucas amostras do resultado esperado.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Restrições:</span> limites, o que evitar, o que nunca fazer.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Formato de saída:</span> a forma da resposta — JSON, lista, tabela, número de frases.</span>
+              </li>
+            </ul>
+
+            <p class="article-p leading-relaxed mb-4">
+              Juntando tudo, um prompt com delimitadores no estilo XML fica assim:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// Um prompt estruturado com tags XML</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptXmlSample}</code></pre>
+            </div>
+          </section>
+
+          <!-- Types -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Tipos de Prompts Estruturados 🗂</h2>
+            <p class="article-p leading-relaxed mb-4">
+              "Estruturado" pode significar coisas diferentes dependendo de onde você coloca a estrutura. Estes são os tipos mais comuns — e eles se combinam à vontade:
+            </p>
+            <ul class="space-y-4">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Com delimitadores:</span> a estrutura está na separação das partes, usando tags XML, cabeçalhos Markdown ou cercas de código. É o tipo mais simples e o que dá mais retorno pelo menor esforço.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Baseado em template:</span> um esqueleto fixo (papel, contexto, tarefa, formato) com variáveis preenchidas em tempo de execução. É a base de qualquer prompt que roda dentro de uma aplicação.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Guiado por exemplos (few-shot):</span> a estrutura vem de pares de entrada e saída que mostram ao modelo o padrão a seguir, em vez de descrevê-lo.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Com saída estruturada:</span> a estrutura está na resposta. Você exige JSON (ou outro formato) com um schema definido, para que o código consiga ler o resultado sem adivinhar.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Em etapas ou encadeado:</span> a estrutura está no processo. A tarefa é dividida em passos, seja pedindo ao modelo que raciocine por etapas, seja usando vários prompts em sequência (prompt chaining).</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Strategies -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Estratégias para Implementar 🛠</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Agora a parte prática. Estas são as estratégias que eu aplico, em ordem aproximada de custo-benefício:
+            </p>
+            <ul class="space-y-4 mb-6">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">1. Separe instruções de dados.</span> Coloque o texto, o código ou o documento dentro de tags nomeadas (<code>&lt;diff&gt;</code>, <code>&lt;email&gt;</code>) e deixe as instruções fora delas. O modelo deixa de confundir "o que fazer" com "o material a processar" — e isso também ajuda a reduzir o risco de prompt injection, embora não o elimine por completo.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">2. Cuide da ordem.</span> Use sempre a mesma sequência de blocos. Com entradas longas, coloque os documentos no início e a pergunta ou tarefa no fim: costuma funcionar melhor do que enterrar a instrução no meio de páginas de texto.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">3. Defina um contrato de saída.</span> Diga exatamente qual formato você quer e mostre o schema. Se a sua API oferece saída estruturada ou chamada de ferramentas, prefira esses recursos a "por favor, responda em JSON". E valide a resposta no código — o contrato vale para os dois lados.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">4. Mostre, não apenas diga.</span> Dois ou três exemplos variados dentro de uma tag <code>&lt;examples&gt;</code> valem mais do que um parágrafo de descrição. Varie os casos para o modelo não copiar o detalhe errado.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">5. Quebre tarefas grandes em cadeia.</span> Um prompt gigante que extrai, analisa, classifica e escreve tudo de uma vez é o malabarista suando da imagem abaixo. Vários prompts pequenos, cada um com uma responsabilidade e uma saída bem definida, são mais fáceis de depurar e de melhorar.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">6. Trate prompts como código.</span> Transforme-os em templates com variáveis, versione no Git e mantenha um pequeno conjunto de casos de teste para notar regressões quando você mudar uma palavra.</span>
+              </li>
+            </ul>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-chain.svg"
+                alt="Um robô fazendo malabarismo com várias tarefas, contrastando com uma linha de montagem de três robôs: extrair, analisar e escrever"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Um prompt gigante vs. uma cadeia de prompts, cada um com uma responsabilidade
+              </figcaption>
+            </figure>
+
+            <p class="article-p leading-relaxed mb-8">
+              Um exemplo de contrato de saída para o prompt de revisão de código que vimos acima:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// Contrato de saída: o formato que o código espera receber</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptJsonSample}</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-8">
+              E um template em TypeScript, em que as partes fixas ficam no código e só o que muda vira variável:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// Prompt como template versionável</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptTemplateSample}</code></pre>
+            </div>
+          </section>
+
+          <!-- Pitfalls -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Armadilhas Comuns ⚠️</h2>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Estrutura demais:</span> uma tarefa simples não precisa de seis blocos. Se a comanda é maior que o prato, algo deu errado.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Instruções contraditórias:</span> "seja breve" no papel e "explique em detalhes" na tarefa deixam o modelo escolher um lado ao acaso.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Exemplos desatualizados:</span> quando o formato muda, lembre-se de atualizar os exemplos — o modelo vai seguir o exemplo, não a sua intenção.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Confiar sem validar:</span> mesmo com schema, valide a saída no código. Estrutura aumenta a chance de acerto, não é uma garantia.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Conclusion -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Conclusão 🏁</h2>
+            <p class="article-p leading-relaxed">
+              Prompts estruturados não são um truque; são o mesmo princípio de sempre da engenharia de software: separar responsabilidades, definir contratos e tornar o comportamento testável. Comece pequeno — delimite suas entradas, defina o formato de saída e use sempre a mesma ordem — e só depois adicione exemplos e cadeias onde a tarefa pedir. Da próxima vez que estiver prestes a gritar "COMIDA! GOSTOSA!" para o modelo, escreva uma comanda 🍝
+            </p>
+          </section>
+
+        </div>
+        ) : (
+        <div class="article-body space-y-14" style="margin-top: 3rem;">
+
+          <!-- Introduction -->
+          <section>
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-hero.svg"
+                alt="A confused robot facing a vague request next to a happy robot facing a structured request"
+                class="article-diagram rounded-xl w-full"
+              />
+            </figure>
+            <p class="article-p leading-relaxed mb-4">
+              We have all written a prompt like "make it better, you know, the thing". And we have all received exactly what we asked for: something vague, unpredictable and full of emojis nobody requested. The model is rarely the problem — a request without a shape just leaves the model to guess the shape on its own.
+            </p>
+            <p class="article-p leading-relaxed">
+              In this article we will look at what structured prompts are, the main types, and above all practical strategies to write them. Spoiler: it is less "magic" and more engineering 🛠
+            </p>
+          </section>
+
+          <!-- What is it -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">What Is a Structured Prompt? 🧱</h2>
+            <p class="article-p leading-relaxed mb-4">
+              A <strong class="article-strong">structured prompt</strong> is a prompt where every piece of information has a clear place and a clear job: who the model should be, what it needs to know, what it must do, what the limits are, and in which format the answer should arrive. Instead of one long paragraph, you hand the model something closer to a well-designed form.
+            </p>
+            <p class="article-p leading-relaxed mb-4">
+              Think of a restaurant. Shouting "FOOD! TASTY! LIKE LAST TIME!!" at the kitchen works right up to the day "tasty" turns into a boot in a bowl. An order ticket with dish, size, restrictions and serving temperature leaves no room for creative interpretation. A structured prompt is the order ticket.
+            </p>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-restaurant.svg"
+                alt="On the left a customer shouts a vague order and gets a boot in a bowl; on the right a clear order ticket produces the right dish"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                Shouting at the kitchen vs. handing over an order ticket
+              </figcaption>
+            </figure>
+
+            <p class="article-p leading-relaxed mb-4">
+              The payoff is very concrete:
+            </p>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Predictability:</span> the same kind of input produces the same kind of output, which matters a lot when the result feeds another system.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Less ambiguity:</span> the model knows where the instructions end and the data begins.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Maintainability:</span> you tweak one part (just the constraints, say) without rewriting the whole prompt.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Reuse and testing:</span> a prompt with holes for variables becomes a template that can be versioned and evaluated.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Anatomy -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">The Anatomy of a Prompt 🧩</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Structured prompts are built like LEGO, not spaghetti: you pick the bricks you need and snap them together in a predictable order. Not every prompt needs every brick, but these are the most common ones:
+            </p>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-anatomy.svg"
+                alt="A stack of labelled LEGO bricks: role, context, task, examples, constraints and output format"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                The bricks of a prompt — use only the ones that make sense
+              </figcaption>
+            </figure>
+
+            <ul class="space-y-3 mb-6">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Role:</span> who the model should be (for example, "senior code reviewer").</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Context:</span> what it needs to know — documents, data, history, audience.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Task:</span> the one thing that has to be done, stated directly.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Examples:</span> a few samples of the expected result.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Constraints:</span> limits, what to avoid, what never to do.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Output format:</span> the shape of the answer — JSON, a list, a table, a number of sentences.</span>
+              </li>
+            </ul>
+
+            <p class="article-p leading-relaxed mb-4">
+              Put together, a prompt with XML-style delimiters looks like this:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// A structured prompt with XML tags</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptXmlSample}</code></pre>
+            </div>
+          </section>
+
+          <!-- Types -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Types of Structured Prompts 🗂</h2>
+            <p class="article-p leading-relaxed mb-4">
+              "Structured" can mean different things depending on where you put the structure. These are the most common types — and they combine freely:
+            </p>
+            <ul class="space-y-4">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Delimited:</span> the structure is in how the parts are separated, using XML tags, Markdown headings or code fences. It is the simplest type and the one with the best return for the least effort.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Template-based:</span> a fixed skeleton (role, context, task, format) with variables filled in at runtime. This is the foundation of any prompt that runs inside an application.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Example-driven (few-shot):</span> the structure comes from input/output pairs that show the model the pattern to follow instead of describing it.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Schema-constrained output:</span> the structure is in the answer. You require JSON (or another format) with a defined schema, so code can read the result without guessing.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Step-based or chained:</span> the structure is in the process. The task is split into steps, either by asking the model to reason step by step or by running several prompts in sequence (prompt chaining).</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Strategies -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Strategies to Implement Them 🛠</h2>
+            <p class="article-p leading-relaxed mb-4">
+              Now the practical part. These are the strategies I apply, in rough order of return on effort:
+            </p>
+            <ul class="space-y-4 mb-6">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">1. Separate instructions from data.</span> Put the text, code or document inside named tags (<code>&lt;diff&gt;</code>, <code>&lt;email&gt;</code>) and keep the instructions outside of them. The model stops confusing "what to do" with "the material to process" — and it also helps reduce the risk of prompt injection, although it does not remove it entirely.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">2. Mind the order.</span> Always use the same sequence of blocks. With long inputs, put the documents first and the question or task last: that tends to work better than burying the instruction in the middle of pages of text.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">3. Define an output contract.</span> State exactly which format you want and show the schema. If your API offers structured outputs or tool calling, prefer them over "please answer in JSON". And validate the response in code — the contract binds both sides.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">4. Show, don't just tell.</span> Two or three varied examples inside an <code>&lt;examples&gt;</code> tag are worth more than a paragraph of description. Vary the cases so the model does not copy the wrong detail.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">5. Break big tasks into a chain.</span> A giant prompt that extracts, analyzes, classifies and writes all at once is the sweating juggler in the picture below. Several small prompts, each with one responsibility and a well-defined output, are easier to debug and to improve.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">6. Treat prompts like code.</span> Turn them into templates with variables, version them in Git and keep a small set of test cases so you notice regressions when you change a single word.</span>
+              </li>
+            </ul>
+
+            <figure class="my-10 flex flex-col items-center gap-3">
+              <img
+                src="/my-portfolio/images/blog/structured-prompts-chain.svg"
+                alt="A robot juggling many tasks contrasted with an assembly line of three robots: extract, analyze and write"
+                class="article-diagram rounded-xl w-full"
+              />
+              <figcaption class="article-caption font-mono text-xs text-center">
+                One giant prompt vs. a chain of prompts with one responsibility each
+              </figcaption>
+            </figure>
+
+            <p class="article-p leading-relaxed mb-8">
+              An example of an output contract for the code-review prompt we saw above:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto mb-8">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// Output contract: the format your code expects to receive</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptJsonSample}</code></pre>
+            </div>
+            <p class="article-p leading-relaxed mb-8">
+              And a TypeScript template, where the fixed parts live in code and only what changes becomes a variable:
+            </p>
+            <div class="code-block rounded-xl overflow-x-auto">
+              <div class="code-header flex items-center gap-2 px-4 py-2 font-mono text-xs">
+                <span>// A prompt as a versionable template</span>
+              </div>
+              <pre class="code-pre p-5 font-mono text-sm leading-relaxed overflow-x-auto"><code>{promptTemplateSample}</code></pre>
+            </div>
+          </section>
+
+          <!-- Pitfalls -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Common Pitfalls ⚠️</h2>
+            <ul class="space-y-3">
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Too much structure:</span> a simple task does not need six blocks. If the order ticket is bigger than the dish, something went wrong.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Contradictory instructions:</span> "be brief" in the role and "explain in detail" in the task leave the model picking a side at random.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Stale examples:</span> when the format changes, remember to update the examples — the model will follow the example, not your intention.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="bullet">▸</span>
+                <span class="article-p"><span class="font-semibold article-strong">Trusting without validating:</span> even with a schema, validate the output in code. Structure raises the odds of a correct answer; it is not a guarantee.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Conclusion -->
+          <section>
+            <h2 class="font-mono font-bold text-xl mb-4">Conclusion 🏁</h2>
+            <p class="article-p leading-relaxed">
+              Structured prompts are not a trick; they are the same old software engineering principle: separate responsibilities, define contracts and make behavior testable. Start small — delimit your inputs, define the output format and keep a consistent order — and only then add examples and chains where the task calls for them. Next time you are about to shout "FOOD! TASTY!" at the model, write an order ticket instead 🍝
             </p>
           </section>
 

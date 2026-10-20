@@ -39,4 +39,19 @@ export const blogPosts: BlogPost[] = [
     },
     tags: ['Linux', 'DevOps', 'CIFS'],
   },
+  {
+    id: 'strategies-for-structured-prompts',
+    title: {
+      en: 'Strategies for Structured Prompts',
+      pt: 'Estratégias para Prompts Estruturados',
+    },
+    date: '2026-10-20',
+    excerpt: {
+      en:
+        'Vague prompts get vague answers. Learn what structured prompts are, the main types (delimited, template-based, example-driven, schema-constrained and chained) and practical strategies to write prompts that behave like well-designed code.',
+      pt:
+        'Prompts vagos geram respostas vagas. Aprenda o que são prompts estruturados, os principais tipos (com delimitadores, baseados em template, guiados por exemplos, com schema e encadeados) e estratégias práticas para escrever prompts que se comportam como código bem projetado.',
+    },
+    tags: ['AI', 'Prompt Engineering', 'LLM'],
+  },
 ];

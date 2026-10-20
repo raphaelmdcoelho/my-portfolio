@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" role="img" aria-labelledby="t d">
+  <title id="t">Ordering food: shouting versus a written order ticket</title>
+  <desc id="d">On the left a customer shouts a vague order and the kitchen serves a boot in a bowl. On the right a clear order ticket produces exactly the dish that was asked for.</desc>
+
+  <rect width="800" height="400" rx="18" fill="#111111"/>
+  <line x1="400" y1="24" x2="400" y2="376" stroke="#2a2a2a" stroke-width="2" stroke-dasharray="6 8"/>
+
+  <!-- ===== LEFT: shouting ===== -->
+  <text x="30" y="44" font-family="JetBrains Mono, monospace" font-size="15" fill="#ff6b6b">// shouting at the kitchen</text>
+
+  <!-- customer -->
+  <g transform="translate(90 170)">
+    <circle cx="0" cy="0" r="30" fill="#1c1c1c" stroke="#e5e5e5" stroke-width="3"/>
+    <circle cx="-10" cy="-6" r="3.5" fill="#e5e5e5"/><circle cx="10" cy="-6" r="3.5" fill="#e5e5e5"/>
+    <ellipse cx="0" cy="12" rx="9" ry="11" fill="#111" stroke="#ff6b6b" stroke-width="3"/>
+    <path d="M-18 -18 l10 5 M18 -18 l-10 5" stroke="#ff6b6b" stroke-width="3" stroke-linecap="round"/>
+    <rect x="-26" y="34" width="52" height="60" rx="12" fill="#1c1c1c" stroke="#e5e5e5" stroke-width="3"/>
+    <path d="M26 46 q36 -20 52 -46" fill="none" stroke="#e5e5e5" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <!-- shout bubble -->
+  <path d="M160 64 h206 a14 14 0 0 1 14 14 v66 a14 14 0 0 1 -14 14 h-150 l-26 20 l6 -20 h-36 a14 14 0 0 1 -14 -14 v-66 a14 14 0 0 1 14 -14 z" fill="#241616" stroke="#ff6b6b" stroke-width="2" stroke-linejoin="round"/>
+  <g font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" fill="#e5e5e5" text-anchor="middle">
+    <text x="270" y="98">"FOOD! TASTY!</text>
+    <text x="270" y="122">LIKE LAST TIME!!"</text>
+  </g>
+
+  <!-- the dish: boot in a bowl -->
+  <g transform="translate(250 300)">
+    <ellipse cx="0" cy="40" rx="86" ry="14" fill="#1c1c1c" stroke="#888" stroke-width="2"/>
+    <path d="M-62 0 h124 a62 62 0 0 1 -124 0 z" fill="#2a2a2a" stroke="#888" stroke-width="3" stroke-linejoin="round"/>
+    <!-- boot -->
+    <path d="M-12 -52 h26 v34 l22 8 q10 4 4 14 h-60 v-56 z" fill="#8a5a2b" stroke="#c88a4a" stroke-width="3" stroke-linejoin="round" transform="translate(-6 8)"/>
+    <path d="M-10 -34 h22 M-10 -24 h22" stroke="#ffd166" stroke-width="2" stroke-linecap="round" transform="translate(-6 8)"/>
+    <!-- steam -->
+    <path d="M-40 -14 q-8 -12 0 -22 t0 -22" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <path d="M50 -14 q-8 -12 0 -22 t0 -22" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <text x="250" y="378" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#888">"tasty" was open to interpretation</text>
+
+  <!-- ===== RIGHT: order ticket ===== -->
+  <text x="430" y="44" font-family="JetBrains Mono, monospace" font-size="15" fill="#00ffe0">// handing over an order ticket</text>
+
+  <!-- ticket -->
+  <g transform="rotate(-2 520 130)">
+    <path d="M430 66 h190 v150 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 l-10 -8 l-10 8 z" fill="#10201f" stroke="#00ffe0" stroke-width="2" stroke-linejoin="round" transform="scale(0.9 1) translate(48 0)"/>
+    <g font-family="JetBrains Mono, monospace" font-size="13">
+      <text x="448" y="92" fill="#00ffe0" font-weight="700">ORDER #42</text>
+      <line x1="448" y1="100" x2="572" y2="100" stroke="#00ffe0" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="448" y="122" fill="#888">dish:   <tspan fill="#e5e5e5">pasta</tspan></text>
+      <text x="448" y="144" fill="#888">size:   <tspan fill="#e5e5e5">large</tspan></text>
+      <text x="448" y="166" fill="#888">avoid:  <tspan fill="#e5e5e5">onions</tspan></text>
+      <text x="448" y="188" fill="#888">serve:  <tspan fill="#e5e5e5">hot</tspan></text>
+    </g>
+  </g>
+
+  <!-- waiter / chef bot -->
+  <g transform="translate(690 132)">
+    <rect x="-34" y="-30" width="68" height="54" rx="12" fill="#1c1c1c" stroke="#00ffe0" stroke-width="3"/>
+    <path d="M-30 -34 q-4 -30 14 -30 q4 -14 16 -8 q12 -10 18 6 q18 0 14 32 z" fill="#e5e5e5" stroke="#888" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M-20 -6 q6 -9 12 0 M8 -6 q6 -9 12 0" fill="none" stroke="#e5e5e5" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M-12 8 q12 12 24 0" fill="none" stroke="#00ffe0" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="-24" y="28" width="48" height="42" rx="10" fill="#1c1c1c" stroke="#00ffe0" stroke-width="3"/>
+    <path d="M-24 44 q-30 -4 -34 -24" fill="none" stroke="#00ffe0" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- the dish: perfect pasta -->
+  <g transform="translate(600 300)">
+    <ellipse cx="0" cy="40" rx="86" ry="14" fill="#1c1c1c" stroke="#00ffe0" stroke-width="2"/>
+    <path d="M-62 0 h124 a62 62 0 0 1 -124 0 z" fill="#1c1c1c" stroke="#00ffe0" stroke-width="3" stroke-linejoin="round"/>
+    <g fill="none" stroke="#ffd166" stroke-width="5" stroke-linecap="round">
+      <path d="M-44 -2 q14 -22 28 0 t28 0 t28 0"/>
+      <path d="M-36 -14 q14 -20 28 0 t28 0 t18 0"/>
+      <path d="M-24 -26 q12 -16 24 0 t24 0"/>
+    </g>
+    <circle cx="-4" cy="-38" r="9" fill="#ff6b6b"/><circle cx="-4" cy="-38" r="9" fill="none" stroke="#c94a4a" stroke-width="2"/>
+    <path d="M-4 -47 q4 -10 12 -10" fill="none" stroke="#00ffe0" stroke-width="3" stroke-linecap="round"/>
+    <path d="M36 -4 q-4 -12 0 -22 t0 -22" fill="none" stroke="#e5e5e5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  <text x="600" y="378" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#888">exactly what was on the ticket</text>
+</svg>
