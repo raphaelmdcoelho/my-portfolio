@@ -1,6 +1,6 @@
 ---
 import { projects } from '../../data/projects';
-import { getLang, loc, useTranslations } from '../../i18n/utils';
+import { getLang, loc, localePath, useTranslations } from '../../i18n/utils';
 import ProjectCarousel from '../ui/ProjectCarousel';
 
 const lang = getLang(Astro.currentLocale);
@@ -16,5 +16,14 @@ const resolved = projects.map((p) => ({ ...p, description: loc(p.description, la
     <div class="reveal">
       <ProjectCarousel client:visible projects={resolved} labels={t.projects} />
     </div>
+
+    <div class="reveal" style="margin-top: 2rem; text-align: center;">
+      <a href={localePath(lang, 'projects/')} class="font-mono text-sm view-all">{t.projects.viewAll} →</a>
+    </div>
   </div>
 </section>
+
+<style>
+  .view-all { color: var(--color-accent); text-decoration: none; }
+  .view-all:hover { text-decoration: underline; }
+</style>
