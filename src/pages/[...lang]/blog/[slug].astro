@@ -1,5 +1,6 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
+import PostEngagement from '../../../components/ui/PostEngagement';
 import { blogPosts } from '../../../data/blog';
 import { formatDate, getLang, loc, localePath, useTranslations } from '../../../i18n/utils';
 
@@ -1483,6 +1484,8 @@ password=WINDOWS_PASSWORD</code></pre>
           </p>
         </div>
       )}
+
+      <PostEngagement client:visible postId={post.id} lang={lang} labels={t.engagement} />
 
     </article>
   </div>
