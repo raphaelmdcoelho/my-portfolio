@@ -127,7 +127,7 @@ const album = [
 
   /* Overlapping fan of photos: all stay visible, the hovered/selected one lifts to the front. */
   .album {
-    --w: clamp(5rem, 28vw, 17rem);
+    --w: clamp(5rem, 22vw, 13rem);
     list-style: none; margin: 0 auto; padding: 2rem 0.5rem;
     box-sizing: content-box; max-width: calc(var(--w) * 2.8); /* caps a row at three photos */
     display: flex; flex-wrap: wrap; justify-content: center; align-items: center; row-gap: 1.5rem;
@@ -143,15 +143,13 @@ const album = [
   .photo + .photo { margin-left: calc(var(--w) * -0.28); }
   /* Two rows of three: the first photo of each row starts the row, so it doesn't overlap backwards. */
   .photo:nth-child(4) { margin-left: 0; }
-  /* Phones: three rows of two. */
+  /* Phones: a plain, evenly spaced grid of two columns, no overlap or tilt. */
   @media (max-width: 639px) {
-    .album { --w: 40vw; max-width: calc(var(--w) * 2); }
-    .photo:nth-child(4) { margin-left: calc(var(--w) * -0.28); }
-    .photo:nth-child(3), .photo:nth-child(5) { margin-left: 0; }
-    /* Mirrored tilt and no vertical offsets, so each row is symmetric. */
-    .photo { --shift: 0rem !important; }
-    .photo:nth-child(odd) { --tilt: -2.5deg !important; }
-    .photo:nth-child(even) { --tilt: 2.5deg !important; }
+    .album {
+      --w: 36vw; max-width: none; display: grid; grid-template-columns: repeat(2, var(--w));
+      justify-content: center; gap: 1.25rem;
+    }
+    .photo { margin-left: 0 !important; --shift: 0rem !important; --tilt: 0deg !important; }
   }
   .photo:hover, .photo:focus-visible, .photo.active {
     z-index: 10;
