@@ -61,6 +61,9 @@ const en = {
     liveDemo: 'Open',
     repoAria: 'GitHub repository for {title}',
     liveAria: 'Open {title}',
+    pageTitle: 'Projects — Raphael Coelho',
+    pageIntro: 'Things I have built: games, tools and experiments, with the stack behind each one.',
+    count: (n: number) => `${n} ${n === 1 ? 'project' : 'projects'}`,
   },
 
   blog: {
@@ -163,6 +166,9 @@ const pt: typeof en = {
     liveDemo: 'Abrir',
     repoAria: 'Repositório no GitHub de {title}',
     liveAria: 'Abrir {title}',
+    pageTitle: 'Projetos — Raphael Coelho',
+    pageIntro: 'Coisas que eu construí: jogos, ferramentas e experimentos, com a stack por trás de cada um.',
+    count: (n: number) => `${n} ${n === 1 ? 'projeto' : 'projetos'}`,
   },
 
   blog: {
