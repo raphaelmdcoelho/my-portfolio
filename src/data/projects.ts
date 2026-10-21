@@ -14,7 +14,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 'mero',
-    title: 'Mero — Adventure',
+    title: 'Mero',
     description: {
       en:
         'A browser-based RPG adventure game. Fight monsters in dungeons, manage your inventory, grow crops on a farm, equip gear, and level up your hero. Fully playable in the browser with no downloads required.',
@@ -29,7 +29,7 @@ export const projects: Project[] = [
   },
   {
     id: 'grass-ds',
-    title: 'grass-ds — Design System',
+    title: 'Grass DS',
     description: {
       en:
         'A grass-inspired design system. A single W3C DTCG token source feeds a framework-agnostic CSS layer and an Angular implementation, with light/dark themes, WCAG AA contrast checks, and a Storybook catalog published to GitHub Pages.',
@@ -43,7 +43,7 @@ export const projects: Project[] = [
   },
   {
     id: 'pull-binder',
-    title: 'pull-binder — Pokémon TCG Manager',
+    title: 'Pull Binder',
     description: {
       en:
         'A web app to manage my Pokémon Trading Card Game collection. Keep track of the cards I own and organize them in a digital binder.',
@@ -57,7 +57,7 @@ export const projects: Project[] = [
   },
   {
     id: 'physical',
-    title: 'Physcal — Body & Health Tracker',
+    title: 'Physcal',
     description: {
       en:
         'Track your muscle measurements by month, follow your evolution over the year, and log blood pressure by day. An interactive anatomical map with per-muscle callouts, plus calculated insights such as BMI, BMR, lean mass and left/right symmetry. Responsive across browser, tablet and phone.',
