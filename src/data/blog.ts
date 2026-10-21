@@ -13,7 +13,12 @@ export const blogPosts: BlogPost[] = [
     id: 'strategies-for-structured-prompts',
     title: {"en": "Strategies for Structured Prompts", "pt": "Estratégias para Prompts Estruturados"},
     date: '2026-10-20',
-    excerpt: {"en": "A good prompt is less like a wish and more like a well-written interface. Learn how to organize instructions, examples, and output contracts so your LLM spends less time guessing what you meant.", "pt": "Um bom prompt se parece menos com um desejo e mais com uma interface bem definida. Aprenda a organizar instruções, exemplos e contratos de saída para que seu LLM passe menos tempo adivinhando o que você quis dizer."},
+    excerpt: {
+      en:
+        "Structured prompts help you organize instructions, context, and expected results when working with language models. In this article, we'll explore their main types and six strategies for implementing and evaluating them in your applications.",
+      pt:
+        "Prompts estruturados ajudam você a organizar instruções, contexto e resultados esperados ao trabalhar com modelos de linguagem. Neste artigo, vamos explorar seus principais tipos e seis estratégias para implementá-los e avaliá-los em suas aplicações.",
+    },
     tags: ['AI', 'Prompt Engineering', 'LLM'],
   },
   {
