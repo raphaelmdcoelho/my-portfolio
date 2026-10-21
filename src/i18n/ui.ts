@@ -32,6 +32,13 @@ const en = {
     aria: 'About me',
     title: 'About Me',
     portraitOf: (name: string) => `Portrait of ${name}`,
+    albumLabel: 'Photo album: who I am and what matters to me',
+    album: {
+      code: { caption: 'code & games', alt: 'Illustration of Raphael coding on a laptop with a VR headset, a PlayStation and an energy drink' },
+      family: { caption: 'family', alt: 'Illustration of Raphael taking a selfie with his wife and daughter at a playground' },
+      gym: { caption: 'gym', alt: 'Illustration of Raphael running on a treadmill while thinking about code' },
+      sushi: { caption: 'sushi', alt: 'Illustration of Raphael eating sushi while checking his phone' },
+    },
   },
 
   experience: {
@@ -80,7 +87,6 @@ const en = {
     backToBlog: 'Back to blog',
     backToBlogAria: 'Back to blog list',
     viewAll: 'View all posts',
-    avatarAlt: 'Illustration of Raphael eating sushi while checking his phone',
     pageTitle: 'Blog — Raphael Coelho',
     pageIntro: 'Notes, guides and write-ups on software development, DevOps and the things I learn along the way.',
     latest: 'Latest',
@@ -138,6 +144,13 @@ const pt: typeof en = {
     aria: 'Sobre mim',
     title: 'Sobre Mim',
     portraitOf: (name) => `Retrato de ${name}`,
+    albumLabel: 'Álbum de fotos: quem eu sou e o que importa para mim',
+    album: {
+      code: { caption: 'código & games', alt: 'Ilustração do Raphael programando no notebook com óculos de VR, um PlayStation e uma lata de energético' },
+      family: { caption: 'família', alt: 'Ilustração do Raphael tirando uma selfie com a esposa e a filha em um parquinho' },
+      gym: { caption: 'academia', alt: 'Ilustração do Raphael correndo na esteira enquanto pensa em código' },
+      sushi: { caption: 'sushi', alt: 'Ilustração do Raphael comendo sushi enquanto olha o celular' },
+    },
   },
 
   experience: {
@@ -186,7 +199,6 @@ const pt: typeof en = {
     backToBlog: 'Voltar ao blog',
     backToBlogAria: 'Voltar à lista de artigos',
     viewAll: 'Ver todos os artigos',
-    avatarAlt: 'Ilustração do Raphael comendo sushi enquanto olha o celular',
     pageTitle: 'Blog — Raphael Coelho',
     pageIntro: 'Notas, guias e textos sobre desenvolvimento de software, DevOps e o que vou aprendendo pelo caminho.',
     latest: 'Mais recente',

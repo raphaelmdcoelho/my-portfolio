@@ -4,6 +4,14 @@ import { getLang, loc, useTranslations } from '../../i18n/utils';
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+const base = '/my-portfolio/images/about';
+const album = [
+  { src: `${base}/portrait.png`, tilt: -3, ...t.about.album.code },
+  { src: `${base}/family.png`, tilt: 2.5, ...t.about.album.family },
+  { src: `${base}/gym.png`, tilt: 3, ...t.about.album.gym },
+  { src: `${base}/sushi.png`, tilt: -2.5, ...t.about.album.sushi },
+];
 ---
 
 <section id="about" class="section" aria-label={t.about.aria}>
@@ -52,30 +60,19 @@ const t = useTranslations(lang);
         </div>
       </div>
 
-      <!-- Avatar -->
-      <div class="flex justify-center md:justify-end reveal">
-        <div class="avatar-frame relative overflow-hidden">
-          <img
-            src={config.avatar}
-            alt={t.about.portraitOf(config.name)}
-            class="w-full h-full object-cover"
-            loading="lazy"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <!-- Fallback placeholder -->
-          <div
-            class="avatar-fallback absolute inset-0 items-center justify-center flex-col gap-2"
-            style="display: none;"
-            aria-hidden="true"
-          >
-            <svg class="avatar-fallback-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-            <span class="avatar-fallback-label font-mono text-xs">avatar.jpg</span>
-          </div>
-        </div>
-      </div>
+      <!-- Photo album -->
+      <ul class="album reveal" aria-label={t.about.albumLabel}>
+        {
+          album.map((photo) => (
+            <li class="photo" style={`--tilt: ${photo.tilt}deg;`}>
+              <figure>
+                <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
+                <figcaption class="font-mono">{photo.caption}</figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
@@ -95,29 +92,26 @@ const t = useTranslations(lang);
     border-color: var(--color-accent) !important;
   }
 
-  /* Same accent-glow gradient frame as the blog header avatar. */
-  .avatar-frame {
-    width: min(100%, 22rem);
-    aspect-ratio: 1;
-    border-radius: 1.5rem;
-    padding: 3px;
+  /* Tilted polaroid-style album, framed with the site's accent glow. */
+  .album {
+    list-style: none; padding: 0.5rem; margin: 0; width: min(100%, 30rem); justify-self: end;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+  }
+  .photo { transform: rotate(var(--tilt)); transition: transform 0.25s, z-index 0s; }
+  .photo:nth-child(even) { margin-top: 1.5rem; }
+  .photo:hover { transform: rotate(0deg) scale(1.06); z-index: 1; }
+  .photo figure {
+    margin: 0; padding: 0.5rem 0.5rem 0.4rem; border-radius: 0.75rem;
     background: linear-gradient(145deg, var(--color-accent), rgba(124, 92, 255, 0.75));
-    box-shadow: 0 0 40px var(--color-accent-dim), 0 18px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px var(--color-accent-dim), 0 14px 30px rgba(0, 0, 0, 0.5);
   }
+  .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; }
+  .photo figcaption { margin-top: 0.4rem; text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--color-bg); }
 
-  .avatar-frame img {
-    border-radius: calc(1.5rem - 3px);
+  @media (max-width: 767px) {
+    .album { justify-self: center; }
   }
-
-  .avatar-fallback {
-    background: var(--color-surface-2);
-  }
-
-  .avatar-fallback-icon {
-    color: var(--color-muted);
-  }
-
-  .avatar-fallback-label {
-    color: var(--color-muted);
+  @media (prefers-reduced-motion: reduce) {
+    .photo, .photo:hover { transition: none; }
   }
 </style>

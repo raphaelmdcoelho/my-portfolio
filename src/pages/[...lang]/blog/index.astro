@@ -28,20 +28,10 @@ const tags = [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeC
 <Layout title={t.blog.pageTitle} description={t.blog.pageIntro}>
   <div class="blog-page content-wrap">
     <header class="blog-head">
-      <div class="blog-head-text">
+      <div>
         <h1 class="section-title"><span>#</span> {t.blog.title}</h1>
         <div class="section-divider"></div>
         <p class="blog-intro">{t.blog.pageIntro}</p>
-      </div>
-      <div class="avatar">
-        <img
-          src="/my-portfolio/images/blog/avatar-sushi-640.png"
-          alt={t.blog.avatarAlt}
-          width="640"
-          height="640"
-          fetchpriority="high"
-          draggable="false"
-        />
       </div>
     </header>
 
@@ -89,26 +79,8 @@ const tags = [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeC
 
 <style>
   .blog-page { padding-top: 8rem; padding-bottom: 6rem; }
-  .blog-head {
-    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2.5rem;
-    margin-bottom: 2.5rem;
-  }
+  .blog-head { margin-bottom: 2.5rem; }
   .blog-intro { color: var(--color-muted); max-width: 40rem; line-height: 1.7; margin-top: 1.25rem; }
-
-  /* Warm illustration framed by the site's accent glow so it sits well on the dark page. */
-  .avatar {
-    position: relative; width: 16rem; aspect-ratio: 1; flex-shrink: 0;
-    border-radius: 1.5rem; padding: 3px;
-    background: linear-gradient(145deg, var(--color-accent), rgba(124, 92, 255, 0.75));
-    box-shadow: 0 0 40px var(--color-accent-dim), 0 18px 40px rgba(0, 0, 0, 0.5);
-    transform: rotate(3deg);
-    animation: avatar-float 6s ease-in-out infinite;
-  }
-  .avatar img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: calc(1.5rem - 3px); }
-  @keyframes avatar-float {
-    0%, 100% { transform: rotate(3deg) translateY(0); }
-    50% { transform: rotate(3deg) translateY(-6px); }
-  }
 
   .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
   .chip {
@@ -156,11 +128,8 @@ const tags = [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeC
   @media (max-width: 760px) {
     .post-list { grid-template-columns: 1fr; }
     .blog-page { padding-top: 6.5rem; }
-    .blog-head { grid-template-columns: 1fr; gap: 1.75rem; }
-    .avatar { width: min(18rem, 80%); order: -1; justify-self: center; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .avatar { animation: none; }
     .post-link, .post-link:hover { transform: none; transition: none; }
   }
 </style>
