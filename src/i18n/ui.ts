@@ -34,10 +34,10 @@ const en = {
     portraitOf: (name: string) => `Portrait of ${name}`,
     albumLabel: 'Photo album: who I am and what matters to me',
     album: {
-      code: { caption: 'code & games', alt: 'Illustration of Raphael coding on a laptop with a VR headset, a PlayStation and an energy drink' },
-      family: { caption: 'family', alt: 'Illustration of Raphael taking a selfie with his wife and daughter at a playground' },
-      gym: { caption: 'gym', alt: 'Illustration of Raphael running on a treadmill while thinking about code' },
-      sushi: { caption: 'sushi', alt: 'Illustration of Raphael eating sushi while checking his phone' },
+      code: 'Illustration of Raphael coding on a laptop with a VR headset, a PlayStation and an energy drink',
+      family: 'Illustration of Raphael taking a selfie with his wife and daughter at a playground',
+      gym: 'Illustration of Raphael running on a treadmill while thinking about code',
+      sushi: 'Illustration of Raphael eating sushi while checking his phone',
     },
   },
 
@@ -146,10 +146,10 @@ const pt: typeof en = {
     portraitOf: (name) => `Retrato de ${name}`,
     albumLabel: 'Álbum de fotos: quem eu sou e o que importa para mim',
     album: {
-      code: { caption: 'código & games', alt: 'Ilustração do Raphael programando no notebook com óculos de VR, um PlayStation e uma lata de energético' },
-      family: { caption: 'família', alt: 'Ilustração do Raphael tirando uma selfie com a esposa e a filha em um parquinho' },
-      gym: { caption: 'academia', alt: 'Ilustração do Raphael correndo na esteira enquanto pensa em código' },
-      sushi: { caption: 'sushi', alt: 'Ilustração do Raphael comendo sushi enquanto olha o celular' },
+      code: 'Ilustração do Raphael programando no notebook com óculos de VR, um PlayStation e uma lata de energético',
+      family: 'Ilustração do Raphael tirando uma selfie com a esposa e a filha em um parquinho',
+      gym: 'Ilustração do Raphael correndo na esteira enquanto pensa em código',
+      sushi: 'Ilustração do Raphael comendo sushi enquanto olha o celular',
     },
   },
 

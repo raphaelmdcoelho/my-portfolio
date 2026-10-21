@@ -7,21 +7,33 @@ const t = useTranslations(lang);
 
 const base = '/my-portfolio/images/about';
 const album = [
-  { src: `${base}/portrait.png`, tilt: -3, ...t.about.album.code },
-  { src: `${base}/family.png`, tilt: 2.5, ...t.about.album.family },
-  { src: `${base}/gym.png`, tilt: 3, ...t.about.album.gym },
-  { src: `${base}/sushi.png`, tilt: -2.5, ...t.about.album.sushi },
+  { src: `${base}/portrait.png`, tilt: -3, alt: t.about.album.code },
+  { src: `${base}/family.png`, tilt: 2.5, alt: t.about.album.family },
+  { src: `${base}/gym.png`, tilt: 3, alt: t.about.album.gym },
+  { src: `${base}/sushi.png`, tilt: -2.5, alt: t.about.album.sushi },
 ];
+const left = album.slice(0, 2);
+const right = album.slice(2);
 ---
 
 <section id="about" class="section" aria-label={t.about.aria}>
   <div class="content-wrap">
     <h2 class="section-title reveal reveal-left"><span>#</span> {t.about.title}</h2>
     <div class="section-divider reveal"></div>
+  </div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+  <div class="about-wide">
+    <div class="about-grid">
+      <ul class="album reveal" aria-label={t.about.albumLabel}>
+        {left.map((photo) => (
+          <li class="photo" style={`--tilt: ${photo.tilt}deg;`}>
+            <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
+          </li>
+        ))}
+      </ul>
+
       <!-- Text -->
-      <div class="reveal">
+      <div class="reveal about-text">
         <div class="space-y-4">
           {
             loc(config.bio, lang).split('\n').filter(Boolean).map((paragraph) => (
@@ -60,18 +72,12 @@ const album = [
         </div>
       </div>
 
-      <!-- Photo album -->
       <ul class="album reveal" aria-label={t.about.albumLabel}>
-        {
-          album.map((photo) => (
-            <li class="photo" style={`--tilt: ${photo.tilt}deg;`}>
-              <figure>
-                <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
-                <figcaption class="font-mono">{photo.caption}</figcaption>
-              </figure>
-            </li>
-          ))
-        }
+        {right.map((photo) => (
+          <li class="photo" style={`--tilt: ${photo.tilt}deg;`}>
+            <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -92,24 +98,27 @@ const album = [
     border-color: var(--color-accent) !important;
   }
 
-  /* Tilted polaroid-style album, framed with the site's accent glow. */
-  .album {
-    list-style: none; padding: 0.5rem; margin: 0; width: min(100%, 30rem); justify-self: end;
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+  .about-wide { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+  @media (min-width: 768px) { .about-wide { padding: 0 3rem; } }
+
+  .about-grid { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 1024px) {
+    .about-grid { grid-template-columns: 17rem minmax(0, 1fr) 17rem; gap: 3rem; }
   }
-  .photo { transform: rotate(var(--tilt)); transition: transform 0.25s, z-index 0s; }
-  .photo:nth-child(even) { margin-top: 1.5rem; }
-  .photo:hover { transform: rotate(0deg) scale(1.06); z-index: 1; }
-  .photo figure {
-    margin: 0; padding: 0.5rem 0.5rem 0.4rem; border-radius: 0.75rem;
+
+  /* Tilted photos framed with the site's accent glow. */
+  .album { list-style: none; padding: 0.5rem; margin: 0; display: grid; gap: 1.75rem; }
+  .photo { transform: rotate(var(--tilt)); transition: transform 0.25s; padding: 0.4rem; border-radius: 0.75rem;
     background: linear-gradient(145deg, var(--color-accent), rgba(124, 92, 255, 0.75));
     box-shadow: 0 0 30px var(--color-accent-dim), 0 14px 30px rgba(0, 0, 0, 0.5);
   }
+  .photo:hover { transform: rotate(0deg) scale(1.05); position: relative; z-index: 1; }
   .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; }
-  .photo figcaption { margin-top: 0.4rem; text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--color-bg); }
 
-  @media (max-width: 767px) {
-    .album { justify-self: center; }
+  /* Below desktop the text comes first and each album becomes a row of two. */
+  @media (max-width: 1023px) {
+    .about-text { order: -1; }
+    .album { grid-template-columns: repeat(2, 1fr); max-width: 32rem; width: 100%; margin: 0 auto; }
   }
   @media (prefers-reduced-motion: reduce) {
     .photo, .photo:hover { transition: none; }
