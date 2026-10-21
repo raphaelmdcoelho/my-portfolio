@@ -116,6 +116,12 @@ const album = [
   .photo + .photo { margin-left: calc(var(--w) * -0.28); }
   /* Two rows of three: the first photo of each row starts the row, so it doesn't overlap backwards. */
   .photo:nth-child(4) { margin-left: 0; }
+  /* Phones: three rows of two. */
+  @media (max-width: 639px) {
+    .album { --w: 40vw; max-width: calc(var(--w) * 2); }
+    .photo:nth-child(4) { margin-left: calc(var(--w) * -0.28); }
+    .photo:nth-child(3), .photo:nth-child(5) { margin-left: 0; }
+  }
   .photo:hover, .photo:focus-visible, .photo.active {
     z-index: 10;
     transform: translateY(-0.75rem) rotate(0deg) scale(1.15);
