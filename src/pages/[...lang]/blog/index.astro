@@ -157,7 +157,7 @@ const tags = [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeC
     .post-list { grid-template-columns: 1fr; }
     .blog-page { padding-top: 6.5rem; }
     .blog-head { grid-template-columns: 1fr; gap: 1.75rem; }
-    .avatar { width: 11rem; order: -1; }
+    .avatar { width: min(18rem, 80%); order: -1; justify-self: center; }
   }
   @media (prefers-reduced-motion: reduce) {
     .avatar { animation: none; }
