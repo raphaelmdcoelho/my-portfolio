@@ -7,10 +7,10 @@ const t = useTranslations(lang);
 
 const base = '/my-portfolio/images/about';
 const album = [
-  { src: `${base}/portrait.png`, tilt: -3, alt: t.about.album.code },
-  { src: `${base}/family.png`, tilt: 2.5, alt: t.about.album.family },
-  { src: `${base}/gym.png`, tilt: 3, alt: t.about.album.gym },
-  { src: `${base}/sushi.png`, tilt: -2.5, alt: t.about.album.sushi },
+  { src: `${base}/portrait.png`, tilt: -3, shift: 0.5, alt: t.about.album.code },
+  { src: `${base}/family.png`, tilt: 2.5, shift: -0.5, alt: t.about.album.family },
+  { src: `${base}/gym.png`, tilt: 3, shift: 0.75, alt: t.about.album.gym },
+  { src: `${base}/sushi.png`, tilt: -2.5, shift: -0.25, alt: t.about.album.sushi },
 ];
 ---
 
@@ -64,8 +64,8 @@ const album = [
       </div>
 
       <ul class="album reveal" aria-label={t.about.albumLabel}>
-        {album.map((photo) => (
-          <li class="photo" style={`--tilt: ${photo.tilt}deg;`}>
+        {album.map((photo, i) => (
+          <li class="photo" style={`--tilt: ${photo.tilt}deg; --shift: ${photo.shift}rem; --z: ${i + 1};`} tabindex="0">
             <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
           </li>
         ))}
@@ -96,16 +96,42 @@ const album = [
   /* Align with the title column above, which is narrower than the photo row. */
   .about-text-col { width: 100%; max-width: 764px; margin: 0 auto; }
 
-  /* Tilted photos framed with the site's accent glow. */
-  .album { list-style: none; padding: 0.5rem; margin: 0; display: grid; gap: 1.75rem; grid-template-columns: repeat(2, 1fr); }
-  @media (min-width: 1024px) { .album { grid-template-columns: repeat(4, 1fr); } }
-  .photo { transform: rotate(var(--tilt)); transition: transform 0.25s; padding: 0.4rem; border-radius: 0.75rem;
-    background: linear-gradient(145deg, var(--color-accent), rgba(124, 92, 255, 0.75));
-    box-shadow: 0 0 30px var(--color-accent-dim), 0 14px 30px rgba(0, 0, 0, 0.5);
+  /* Overlapping fan of photos: all stay visible, the hovered/selected one lifts to the front. */
+  .album {
+    --w: clamp(6.5rem, 24vw, 16rem);
+    list-style: none; margin: 0; padding: 2rem 0.5rem;
+    display: flex; justify-content: center; align-items: center;
   }
-  .photo:hover { transform: rotate(0deg) scale(1.05); position: relative; z-index: 1; }
-  .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; }
+  .photo {
+    width: var(--w); flex-shrink: 0; padding: 0.4rem; border-radius: 0.75rem; cursor: pointer; outline: none;
+    background: linear-gradient(145deg, var(--color-accent), rgba(124, 92, 255, 0.75));
+    box-shadow: 0 0 20px var(--color-accent-dim), 0 12px 28px rgba(0, 0, 0, 0.55);
+    transform: translateY(var(--shift)) rotate(var(--tilt));
+    z-index: var(--z); position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .photo + .photo { margin-left: calc(var(--w) * -0.28); }
+  .photo:hover, .photo:focus-visible, .photo.active {
+    z-index: 10;
+    transform: translateY(-0.75rem) rotate(0deg) scale(1.15);
+    box-shadow: 0 0 40px var(--color-accent), 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+  .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; pointer-events: none; }
   @media (prefers-reduced-motion: reduce) {
-    .photo, .photo:hover { transition: none; }
+    .photo { transition: none; }
   }
 </style>
+
+<script>
+  // Tap/click selects a photo (hover doesn't exist on touch); tapping elsewhere clears it.
+  const photos = document.querySelectorAll<HTMLElement>('.album .photo');
+  photos.forEach((photo) => {
+    photo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasActive = photo.classList.contains('active');
+      photos.forEach((p) => p.classList.remove('active'));
+      if (!wasActive) photo.classList.add('active');
+    });
+  });
+  document.addEventListener('click', () => photos.forEach((p) => p.classList.remove('active')));
+</script>
