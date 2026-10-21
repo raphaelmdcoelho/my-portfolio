@@ -9,8 +9,10 @@ const base = '/my-portfolio/images/about';
 const album = [
   { src: `${base}/portrait.png`, tilt: -3, shift: 0.5, alt: t.about.album.code },
   { src: `${base}/family.png`, tilt: 2.5, shift: -0.5, alt: t.about.album.family },
-  { src: `${base}/gym.png`, tilt: 3, shift: 0.75, alt: t.about.album.gym },
-  { src: `${base}/sushi.png`, tilt: -2.5, shift: -0.25, alt: t.about.album.sushi },
+  { src: `${base}/cooking.png`, tilt: -2, shift: 0.75, alt: t.about.album.cooking },
+  { src: `${base}/gym.png`, tilt: 3, shift: -0.25, alt: t.about.album.gym },
+  { src: `${base}/reading.png`, tilt: -3.5, shift: 0.5, alt: t.about.album.reading },
+  { src: `${base}/sushi.png`, tilt: 2.5, shift: -0.5, alt: t.about.album.sushi },
 ];
 ---
 
@@ -98,7 +100,7 @@ const album = [
 
   /* Overlapping fan of photos: all stay visible, the hovered/selected one lifts to the front. */
   .album {
-    --w: clamp(6.5rem, 24vw, 16rem);
+    --w: clamp(4rem, 17vw, 13.5rem);
     list-style: none; margin: 0; padding: 2rem 0.5rem;
     display: flex; justify-content: center; align-items: center;
   }
@@ -111,6 +113,11 @@ const album = [
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .photo + .photo { margin-left: calc(var(--w) * -0.28); }
+  /* Phones: two rows of three so the photos stay big enough to see. */
+  @media (max-width: 639px) {
+    .album { --w: 28vw; flex-wrap: wrap; row-gap: 1rem; }
+    .photo:nth-child(4) { margin-left: 0; }
+  }
   .photo:hover, .photo:focus-visible, .photo.active {
     z-index: 10;
     transform: translateY(-0.75rem) rotate(0deg) scale(1.15);
