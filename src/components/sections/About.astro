@@ -121,6 +121,10 @@ const album = [
     .album { --w: 40vw; max-width: calc(var(--w) * 2); }
     .photo:nth-child(4) { margin-left: calc(var(--w) * -0.28); }
     .photo:nth-child(3), .photo:nth-child(5) { margin-left: 0; }
+    /* Mirrored tilt and no vertical offsets, so each row is symmetric. */
+    .photo { --shift: 0rem !important; }
+    .photo:nth-child(odd) { --tilt: -2.5deg !important; }
+    .photo:nth-child(even) { --tilt: 2.5deg !important; }
   }
   .photo:hover, .photo:focus-visible, .photo.active {
     z-index: 10;
