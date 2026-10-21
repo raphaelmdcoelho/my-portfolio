@@ -69,7 +69,7 @@ const album = [
       <div class="album-wrap reveal" role="button" tabindex="0" aria-expanded="false" aria-label={t.about.albumLabel}>
         <ul class="album">
           {album.map((photo, i) => (
-            <li class="photo" style={`--tilt: ${photo.tilt}deg; --shift: ${photo.shift}rem; --z: ${i + 1};`}>
+            <li class="photo" style={`--tilt: ${photo.tilt}deg; --shift: ${photo.shift}rem; --z: ${i + 1}; --sz: ${i === 0 ? album.length : i};`}>
               <img src={photo.src} alt={photo.alt} width="640" height="640" loading="lazy" draggable="false" />
             </li>
           ))}
@@ -161,12 +161,14 @@ const album = [
   .album-wrap:not(.open) .album {
     position: relative; display: block; max-width: none; height: calc(var(--sw) + 5rem);
   }
+  /* --sz is the stack order (the portrait goes on top); --z stays the grid order. */
   .album-wrap:not(.open) .photo {
+    z-index: var(--sz);
     position: absolute; top: 50%; left: 50%; width: var(--sw); margin: 0 !important;
     transform:
       translate(-50%, -50%)
-      translate(calc((var(--z) - 3.5) * 1rem), calc((var(--z) - 3.5) * 0.4rem))
-      rotate(calc((var(--z) - 3.5) * 3deg));
+      translate(calc((var(--sz) - 3.5) * 1rem), calc((var(--sz) - 3.5) * 0.4rem))
+      rotate(calc((var(--sz) - 3.5) * 3deg));
   }
   .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; pointer-events: none; }
 </style>
