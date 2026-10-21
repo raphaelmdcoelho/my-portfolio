@@ -100,9 +100,10 @@ const album = [
 
   /* Overlapping fan of photos: all stay visible, the hovered/selected one lifts to the front. */
   .album {
-    --w: clamp(4rem, 17vw, 13.5rem);
-    list-style: none; margin: 0; padding: 2rem 0.5rem;
-    display: flex; justify-content: center; align-items: center;
+    --w: clamp(5rem, 28vw, 17rem);
+    list-style: none; margin: 0 auto; padding: 2rem 0.5rem;
+    box-sizing: content-box; max-width: calc(var(--w) * 2.8); /* caps a row at three photos */
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center; row-gap: 1.5rem;
   }
   .photo {
     width: var(--w); flex-shrink: 0; padding: 0.4rem; border-radius: 0.75rem; cursor: pointer; outline: none;
@@ -113,15 +114,12 @@ const album = [
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .photo + .photo { margin-left: calc(var(--w) * -0.28); }
-  /* Phones: two rows of three so the photos stay big enough to see. */
-  @media (max-width: 639px) {
-    .album { --w: 28vw; flex-wrap: wrap; row-gap: 1rem; }
-    .photo:nth-child(4) { margin-left: 0; }
-  }
+  /* Two rows of three: the first photo of each row starts the row, so it doesn't overlap backwards. */
+  .photo:nth-child(4) { margin-left: 0; }
   .photo:hover, .photo:focus-visible, .photo.active {
     z-index: 10;
     transform: translateY(-0.75rem) rotate(0deg) scale(1.15);
-    box-shadow: 0 0 40px var(--color-accent), 0 20px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   }
   .photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.5rem; pointer-events: none; }
   @media (prefers-reduced-motion: reduce) {
