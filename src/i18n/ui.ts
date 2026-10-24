@@ -32,7 +32,6 @@ const en = {
     aria: 'About me',
     title: 'About Me',
     portraitOf: (name: string) => `Portrait of ${name}`,
-    downloadCv: 'Download my resume',
     albumLabel: 'Photo album: who I am and what matters to me',
     album: {
       code: 'Illustration of Raphael coding on a laptop with a VR headset, a PlayStation and an energy drink',
@@ -147,7 +146,6 @@ const pt: typeof en = {
     aria: 'Sobre mim',
     title: 'Sobre Mim',
     portraitOf: (name) => `Retrato de ${name}`,
-    downloadCv: 'Baixar meu currículo',
     albumLabel: 'Álbum de fotos: quem eu sou e o que importa para mim',
     album: {
       code: 'Ilustração do Raphael programando no notebook com óculos de VR, um PlayStation e uma lata de energético',
